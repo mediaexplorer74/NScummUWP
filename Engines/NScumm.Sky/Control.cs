@@ -820,7 +820,7 @@ namespace NScumm.Sky
 
             try
             {
-                using (var inf = (Stream)_saveFileMan.OpenForLoading(fName))
+                using (var inf = (Stream)_saveFileMan.OpenForLoading(fName).Result)
                 {
                     var br = new BinaryReader(inf);
                     int infSize = br.ReadInt32();
@@ -853,7 +853,7 @@ namespace NScumm.Sky
             }
 
             ushort writeOk;
-            using (var outf = _saveFileMan.OpenForSaving(filename))
+            using (var outf = _saveFileMan.OpenForSaving(filename).Result)
             {
                 if (outf == null)
                     return NoDiskSpace;
@@ -1336,7 +1336,7 @@ namespace NScumm.Sky
         {
             try
             {
-                using (var outf = _saveFileMan.OpenForSaving("SKY-VM.SAV"))
+                using (var outf = _saveFileMan.OpenForSaving("SKY-VM.SAV").Result)
                 {
                     for (ushort cnt = 0; cnt < MaxSaveGames; cnt++)
                     {
@@ -1416,7 +1416,7 @@ namespace NScumm.Sky
             var savenames = new string[MaxSaveGames];
             try
             {
-                using (var inf = _saveFileMan.OpenForLoading("SKY-VM.SAV"))
+                using (var inf = _saveFileMan.OpenForLoading("SKY-VM.SAV").Result)
                 {
                     var br = new BinaryReader(inf);
                     for (int i = 0; i < MaxSaveGames; ++i)
@@ -1453,7 +1453,7 @@ namespace NScumm.Sky
 
             try
             {
-                using (var f = _saveFileMan.OpenForLoading(fName))
+                using (var f = _saveFileMan.OpenForLoading(fName).Result)
                 {
                     test = f != null;
                 }

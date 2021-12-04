@@ -17,9 +17,10 @@
 
 using Microsoft.Xna.Framework;
 using NScumm.Core.IO;
+using System;
 
 namespace NScumm.MonoGame
-{
+{ 
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -36,28 +37,35 @@ namespace NScumm.MonoGame
         public ScummGame()
             : this(null)
         {
+
         }
 
         public ScummGame(GameSettings settings)
         {
-            IsMouseVisible = false;
-            IsFixedTimeStep = false;
-            Window.AllowUserResizing = true;
+            try
+            {
+                IsMouseVisible = false;
+                IsFixedTimeStep = false;
+                Window.AllowUserResizing = true;
 
-            Content.RootDirectory = "Content";
+                Content.RootDirectory = "Content";
 
-            GraphicsDeviceManager = new GraphicsDeviceManager(this);
+                GraphicsDeviceManager = new GraphicsDeviceManager(this);
 #if !WINDOWS_UWP
             Settings = settings;
             GraphicsDeviceManager.PreferredBackBufferWidth = 800;
             GraphicsDeviceManager.PreferredBackBufferHeight = (int)(800.0 * Settings.Game.Height / Settings.Game.Width);
 #else
-            Settings = new GameSettings(GamePage.Info.Game, GamePage.Info.Engine);
-            GraphicsDeviceManager.PreferredBackBufferWidth = Settings.Game.Width;
-            GraphicsDeviceManager.PreferredBackBufferHeight = Settings.Game.Height;
+                Settings = new GameSettings(GamePage.Info.Game, GamePage.Info.Engine);
+                GraphicsDeviceManager.PreferredBackBufferWidth = Settings.Game.Width;
+                GraphicsDeviceManager.PreferredBackBufferHeight = Settings.Game.Height;
 #endif
-            _screenManager = new ScreenManager(this);
-            Components.Add(_screenManager);
+                _screenManager = new ScreenManager(this);
+                Components.Add(_screenManager);
+            }catch(Exception ex)
+            {
+
+            }
         }
 
         /// <summary>
@@ -68,17 +76,28 @@ namespace NScumm.MonoGame
         /// </summary>
         protected override void Initialize()
         {
-            Window.Title = string.Format("nSCUMM - {0} [{1}]", Settings.Game.Description, Settings.Game.Culture.NativeName);
-            _screenManager.AddScreen(new BackgroundScreen());
-            _screenManager.AddScreen(new ScummScreen(this, Settings));
+            try
+            {
+                Window.Title = string.Format("nSCUMM - {0} [{1}]", Settings.Game.Description, Settings.Game.Culture.NativeName);
+                _screenManager.AddScreen(new BackgroundScreen());
+                _screenManager.AddScreen(new ScummScreen(this, Settings));
 
-            base.Initialize();
+                base.Initialize();
+            }catch(Exception ex)
+            {
+
+            }
         }
 
         protected override void EndRun()
         {
-            _screenManager.EndRun();
-            base.EndRun();
+            try {
+                _screenManager.EndRun();
+                base.EndRun();
+            }catch(Exception ex)
+            {
+
+            }
         }
     }
 }

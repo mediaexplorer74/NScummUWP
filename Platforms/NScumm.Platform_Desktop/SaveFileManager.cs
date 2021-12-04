@@ -20,6 +20,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using NScumm.Core;
 
 namespace NScumm
@@ -66,6 +67,26 @@ namespace NScumm
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "nScumm",
                 "SaveGames");
+        }
+
+        Task<Stream> ISaveFileManager.OpenForLoading(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Stream> ISaveFileManager.OpenForSaving(string fileName, bool compress)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<string[]> ISaveFileManager.ListSavefiles(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setID(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

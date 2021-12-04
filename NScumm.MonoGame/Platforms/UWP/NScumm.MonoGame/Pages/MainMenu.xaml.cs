@@ -4,6 +4,13 @@ using System.IO;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel.Resources;
+using Windows.UI.Core;
+using System;
+using Windows.UI.Popups;
+using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
+using Windows.Storage;
 
 namespace NScumm.MonoGame.Pages
 {
@@ -42,24 +49,29 @@ namespace NScumm.MonoGame.Pages
             SaveStackPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
-        private void OnLoad(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void OnLoad(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Title = _loader.GetString("MainMenu_LoadTitle");
             LoadGameList.Items.Clear();
-            var savegames = GetSavegames();
+            var savegames = await GetSavegames();
             savegames.ForEach(LoadGameList.Items.Add);
 
             MainStackPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             LoadStackPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
-        private void OnSave(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void OnSave(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Title = _loader.GetString("MainMenu_SaveTitle");
             SaveGameList.Items.Clear();
-            var savegames = GetSavegames();
+            var savegames = await GetSavegames();
             savegames.ForEach(SaveGameList.Items.Add);
-            SaveGameList.Items.Add(_loader.GetString("New Entry"));
+            ListViewItem NewEntry = new ListViewItem();
+            NewEntry.Content = _loader.GetString("New Entry");
+            NewEntry.Background = new SolidColorBrush(Colors.DodgerBlue);
+            NewEntry.Foreground = new SolidColorBrush(Colors.White);
+
+            SaveGameList.Items.Add(NewEntry);
 
             MainStackPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             SaveStackPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -67,13 +79,33 @@ namespace NScumm.MonoGame.Pages
 
         private void OnExit(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            ExitGame_Click();
             Hide();
+
+        }
+        private async void ExitGame_Click()
+        {
+            try
+            {
+                var messageDialog = new MessageDialog("Do you want to exit?");
+                messageDialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                messageDialog.Commands.Add(new UICommand("Dismiss"));
+                await messageDialog.ShowAsync();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void CommandInvokedHandler(IUICommand command)
+        {
             Engine.IsPaused = false;
             Engine.HasToQuit = true;
+            App.isGameStarted = false;
         }
-
         private void OnLoadGame(object sender, ItemClickEventArgs e)
         {
+            //string ObjectType = e.ClickedItem.GetType().Name;
             var index = ((ListView)sender).Items.IndexOf(e.ClickedItem);
             LoadGame(index);
             Hide();
@@ -82,35 +114,118 @@ namespace NScumm.MonoGame.Pages
         private void OnSaveGame(object sender, ItemClickEventArgs e)
         {
             var index = ((ListView)sender).Items.IndexOf(e.ClickedItem);
+            if(index == -1)
+            {
+                index = ((ListView)sender).Items.Count - 1;
+            }
             SaveGame(index);
             Hide();
         }
 
 
-        private List<string> GetSavegames()
+        private async Task<List<string>> GetSavegames()
         {
-            var dir = Windows.Storage.ApplicationData.Current.RoamingFolder.Path;
-            var pattern = string.Format("{0}*.sav", Game.Settings.Game.Id);
-            return ServiceLocator.FileStorage.EnumerateFiles(dir, pattern).Select(Path.GetFileNameWithoutExtension).ToList();
+            var local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var spec = await local.CreateFolderAsync(Game.Settings.Game.Id, Windows.Storage.CreationCollisionOption.OpenIfExists);
+            if (spec != null)
+            {
+                var dir = spec.Path;
+                var pattern = string.Format("{0}*.sav", Game.Settings.Game.Id);
+                return ServiceLocator.FileStorage.EnumerateFiles(dir, pattern).Select(Path.GetFileNameWithoutExtension).ToList();
+            }
+            return new List<string>();
         }
 
-        private string GetSaveGamePath(int index)
+        private async Task<string> GetSaveGamePath(int index)
         {
-            var dir = Windows.Storage.ApplicationData.Current.RoamingFolder.Path;
-            var filename = Path.Combine(dir, string.Format("{0}{1}.sav", Game.Settings.Game.Id, (index + 1)));
-            return filename;
+            var local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var spec = await local.CreateFolderAsync(Game.Settings.Game.Id, Windows.Storage.CreationCollisionOption.OpenIfExists);
+            if (spec != null)
+            {
+                var indexResolve = "00";
+                if(index > 9)
+                {
+                    indexResolve = "0";
+                }else if (index > 99)
+                {
+                    indexResolve = "";
+                }
+                var dir = spec.Path;
+                var filename = Path.Combine(dir, string.Format("{0} ({1}{2}).sav", Game.Settings.Game.Id, indexResolve ,(index + 1)));
+                return filename;
+            }
+            return "";
         }
 
-        private void LoadGame(int index)
+        private async void LoadGame(int index)
         {
-            var filename = GetSaveGamePath(index);
-            Engine.Load(filename);
+            try
+            {
+                var filename = await GetSaveGamePath(index);
+                if (filename.Length > 0)
+                {
+                    Engine.Load(filename);
+                    
+                    GamePage.ShowTileHandler.Invoke(new string[] { "Load State", "State loaded successfully", $"Name: { Path.GetFileNameWithoutExtension(filename) }"}, EventArgs.Empty);
+                }
+            }catch(Exception ex)
+            {
+                ShowDialog(ex);
+            }
         }
 
-        private void SaveGame(int index)
+        private async void SaveGame(int index)
         {
-            var filename = GetSaveGamePath(index);
-            Engine.Save(filename);
+            try
+            {
+                var filename = await GetSaveGamePath(index);
+                if (filename.Length > 0)
+                {
+                    Engine.Save(filename);
+                    GamePage.ShowTileHandler.Invoke(new string[] { "Save State", "Save state done", $"Name: { Path.GetFileNameWithoutExtension(filename) }" }, EventArgs.Empty);
+                }
+            }catch(Exception ex)
+            {
+                ShowDialog(ex);
+            }
+        }
+        private async void ShowDialog(Exception message, bool log = false)
+        {
+            try
+            {
+                if (log)
+                {
+                    var logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("log.txt", CreationCollisionOption.OpenIfExists);
+                    await FileIO.AppendTextAsync(logFile, message.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            var messageDialog = new MessageDialog(message.Message);
+            messageDialog.Commands.Add(new UICommand(
+                "Close"));
+            await messageDialog.ShowAsync();
+        }
+        private async void ShowDialog(string message, bool log = false)
+        {
+            try
+            {
+                if (log)
+                {
+                    var logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("log.txt", CreationCollisionOption.OpenIfExists);
+                    await FileIO.AppendTextAsync(logFile, message);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            var messageDialog = new MessageDialog(message);
+            messageDialog.Commands.Add(new UICommand(
+                "Close"));
+            await messageDialog.ShowAsync();
         }
     }
 }

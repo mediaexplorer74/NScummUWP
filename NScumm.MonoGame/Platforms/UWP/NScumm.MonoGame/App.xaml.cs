@@ -5,6 +5,11 @@ using System.Diagnostics;
 using System.Xml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -23,32 +28,59 @@ namespace NScumm.MonoGame
         /// </summary>
         public App()
         {
+            try
+            {
+                var y = MemoryManager.AppMemoryUsageLimit;
+                try
+                {
+                    var u = MemoryManager.AppMemoryUsage;
+                    if (y <= u || y < 100000000)
+                    {
+                        bool result = MemoryManager.TrySetAppMemoryUsageLimit(y + 100000000);
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    Debug.WriteLine("!! Exception (app.xaml) !!" + e.Message);
+                }
+            }
+            catch
+            {
+
+            }
+
             InitializeComponent();
 
             UnhandledException += OnUnhandledException;
             Suspending += OnSuspending;
         }
-
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             ServiceLocator.Platform = new WindowsUAPPlatform();
             ServiceLocator.FileStorage = new FileStorage();
             ServiceLocator.TraceFatory = new TraceFactory("IO");
             ServiceLocator.SaveFileManager = new SaveFileManager(ServiceLocator.FileStorage);
+
 #if DEBUG
             if (Debugger.IsAttached)
             {
-                DebugSettings.EnableFrameRateCounter = true;
+                //DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
-
+            if (!isBackPressedReady)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                //SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+                isBackPressedReady = true;
+            }
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -85,7 +117,8 @@ namespace NScumm.MonoGame
         /// <param name="e">Details about the navigation failure</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            //
+            //Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         /// <summary>
@@ -102,6 +135,46 @@ namespace NScumm.MonoGame
             deferral.Complete();
         }
 
+        public static bool isGameStarted = false;
+        bool isBackPressedReady = false;
+        public static string CurrentGameID = "";
+        public static string currentGameID
+        {
+            get
+            {
+                return CurrentGameID;
+            }
+            set
+            {
+                CurrentGameID = value;
+                ServiceLocator.SaveFileManager.setID(CurrentGameID);
+            }
+        }
+        private async void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (isGameStarted)
+            {
+                e.Handled = true;
+                return;
+            }
+            try
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                var messageDialog = new MessageDialog("Do you want to exit?");
+                messageDialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                messageDialog.Commands.Add(new UICommand("Dismiss"));
+                await messageDialog.ShowAsync();
+                e.Handled = true;
+            }catch(Exception ex)
+            {
+
+            }
+        }
+        private void CommandInvokedHandler(IUICommand command)
+        {
+            // Display message showing the label of the command that was invoked
+            CoreApplication.Exit();
+        }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e != null)
@@ -137,16 +210,15 @@ namespace NScumm.MonoGame
                     e.Handled = true;
                     return;
                 }
-
             }
             // APP SPECIFIC HANDLING HERE
 
             if (Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
-                Debugger.Break();
+                //Debugger.Break();
             }
-            //e.Handled = true;
+            e.Handled = true;
         }
     }
 }

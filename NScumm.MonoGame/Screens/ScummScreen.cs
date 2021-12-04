@@ -27,6 +27,10 @@ using System.Threading.Tasks;
 using NScumm.MonoGame.Services;
 using NScumm.Core.Audio;
 using NScumm.Core.IO;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using System.Threading;
+using System.Runtime;
 
 namespace NScumm.MonoGame
 {
@@ -52,6 +56,7 @@ namespace NScumm.MonoGame
             this.info = info;
         }
 
+        public bool engineFaildToStart = false;
         public override void LoadContent()
         {
             if (!contentLoaded)
@@ -71,15 +76,41 @@ namespace NScumm.MonoGame
 #endif
                 audioDriver.Play();
 
-                // init engines
-                engine = info.MetaEngine.Create(info, gfx, inputManager, audioDriver, saveFileManager);
-                engine.ShowMenuDialogRequested += OnShowMenuDialogRequested;
-                game.Services.AddService(engine);
-
-                Task.Factory.StartNew(() =>
+                //init engines
+                for (var i = 0; i < 9; i++)
                 {
-                    UpdateGame();
-                });
+                    try
+                    {
+                        engine = info.MetaEngine.Create(info, gfx, inputManager, audioDriver, saveFileManager);
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        engineFaildToStart = true;
+                        break;
+                        //Is it a good idea to test other version if the current faild?
+                        /*info.Game.Version = i;
+                        if (i == 8)
+                        {
+                            engineFaildToStart = true;
+                        }*/
+                    }
+                }
+                if (!engineFaildToStart)
+                {
+                    engine.ShowMenuDialogRequested += OnShowMenuDialogRequested;
+                    game.Services.AddService(engine);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        UpdateGame();
+                    });
+                }
+                else
+                {
+                    GamePage.ShowTileHandler.Invoke(new string[] { "Failed State", "Start failed!", $"Failed to start the game", "Engine cannot start" }, EventArgs.Empty);
+                }
+                //callGCTimer(true);
             }
         }
 
@@ -116,12 +147,21 @@ namespace NScumm.MonoGame
             }
         }
 
+        private void UpdateFrameRate()
+        {
+            GamePage.FPSHandler.Invoke(null, EventArgs.Empty);
+        }
         public override void Draw(GameTime gameTime)
         {
+            if (engineFaildToStart)
+            {
+                return;
+            }
             spriteBatch.Begin();
             gfx.DrawScreen(spriteBatch);
             gfx.DrawCursor(spriteBatch, cursorPos);
             spriteBatch.End();
+            UpdateFrameRate();
         }
 
         private void UpdateGame()
@@ -140,6 +180,75 @@ namespace NScumm.MonoGame
             }
         }
 
+        private Timer GCTimer;
+        bool NoGCRegionState = false;
+        bool ReduceFreezesInProgress = false;
+        //GCServices.GCService gcService = new GCServices.GCService();
+        private void updateGCCaller()
+        {
+            ReduceFreezesInProgress = true;
+
+            try
+            {
+                if (!NoGCRegionState)
+                {
+                    GC.WaitForPendingFinalizers();
+                    //gcService.TryStartNoGCRegionCall();
+                    NoGCRegionState = true;
+                }
+                else
+                {
+                    //gcService.EndNoGCRegionCall();
+                    NoGCRegionState = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                NoGCRegionState = false;
+            }
+
+            ReduceFreezesInProgress = false;
+        }
+        public async void UpdateGC(object sender, EventArgs e)
+        {
+            try
+            {
+                {
+                    if (!ReduceFreezesInProgress)
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                        {
+                            updateGCCaller();
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        private void callGCTimer(bool startState = false)
+        {
+            try
+            {
+                GCTimer?.Dispose();
+                if (startState)
+                {
+                    GCTimer = new Timer(delegate { UpdateGC(null, EventArgs.Empty); }, null, 0, 1500);
+                }
+                else
+                {
+                    if (NoGCRegionState)
+                    {
+                        NoGCRegionState = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                NoGCRegionState = false;
+            }
+        }
     }
 }
 

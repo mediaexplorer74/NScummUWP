@@ -18,13 +18,15 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace NScumm.Core
 {
     public interface ISaveFileManager
     {
-        Stream OpenForLoading(string fileName);
-        Stream OpenForSaving(string fileName, bool compress = true);
-        string[] ListSavefiles(string pattern);
+        Task<Stream> OpenForLoading(string fileName);
+        Task<Stream> OpenForSaving(string fileName, bool compress = true);
+        Task<string[]> ListSavefiles(string pattern);
+        void setID(string id);
     }
 }

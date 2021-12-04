@@ -144,6 +144,16 @@ namespace NScumm
             var fullPath = ScummHelper.LocatePath(dir, path);
             return OpenFileRead(fullPath);
         }
+
+        public Stream OpenContent(string path, bool localState = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ReadContent(string path, bool localState = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

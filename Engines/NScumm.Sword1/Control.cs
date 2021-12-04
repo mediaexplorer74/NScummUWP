@@ -635,7 +635,7 @@ namespace NScumm.Sword1
 
             ushort cnt;
             var fName = $"sword1.{slot:D3}";
-            using (var inf = new BinaryReader(_saveFileMan.OpenForLoading(fName)))
+            using (var inf = new BinaryReader(_saveFileMan.OpenForLoading(fName).Result))
             {
                 // TODO:
                 //if (inf==null)
@@ -1037,7 +1037,7 @@ namespace NScumm.Sword1
             var fName = $"sword1.{slot:D3}";
             ushort[] liveBuf = new ushort[ObjectMan.TOTAL_SECTIONS];
 
-            using (var stream = _saveFileMan.OpenForSaving(fName))
+            using (var stream = _saveFileMan.OpenForSaving(fName).Result)
             using (var outf = new BinaryWriter(stream))
             {
                 //if (!outf)
@@ -1422,7 +1422,7 @@ namespace NScumm.Sword1
         public void ReadSavegameDescriptions()
         {
             var pattern = "sword1.???";
-            var filenames = _saveFileMan.ListSavefiles(pattern);
+            var filenames = _saveFileMan.ListSavefiles(pattern).Result;
             Array.Sort(filenames);// Sort (hopefully ensuring we are sorted numerically..)
 
             _saveNames.Clear();
@@ -1443,7 +1443,7 @@ namespace NScumm.Sword1
                 if (slotNum >= 0 && slotNum <= 999)
                 {
                     num++;
-                    using (var input = _saveFileMan.OpenForLoading(file))
+                    using (var input = _saveFileMan.OpenForLoading(file).Result)
                     {
                         if (input != null)
                         {
@@ -1773,7 +1773,7 @@ namespace NScumm.Sword1
         public bool SavegamesExist()
         {
             var pattern = "sword1.???";
-            var saveNames = _saveFileMan.ListSavefiles(pattern);
+            var saveNames = _saveFileMan.ListSavefiles(pattern).Result;
             return saveNames.Length > 0;
         }
     }

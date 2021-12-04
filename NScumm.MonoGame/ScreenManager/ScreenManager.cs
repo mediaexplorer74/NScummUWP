@@ -138,8 +138,8 @@ namespace NScumm.MonoGame
             graphicsDeviceService = (IGraphicsDeviceService)game.Services.GetService(
                 typeof(IGraphicsDeviceService));
 
-            if (graphicsDeviceService == null)
-                throw new InvalidOperationException("No graphics device service.");
+            /*if (graphicsDeviceService == null)
+                throw new InvalidOperationException("No graphics device service.");*/
         }
 
 

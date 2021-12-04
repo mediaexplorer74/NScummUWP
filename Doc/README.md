@@ -1,74 +1,75 @@
-# NSCUMM
+<p align="center">
+  <img src="assets/logo.png" width="176"><br>
+  <b>Enhanced Scumm Engine (UWP) based on NScumm by scemino</b><br>
+  <a href="./src">Source</a> |
+  <a href="https://github.com/scemino/nscumm">Original Project</a> 
+  <br><br>
+  <img src="assets/screen.jpg"><br><br>
+</p>
 
-Quick and dirty .NET rewrite of the SCUMM and Virtual Theatre engines of the project scummvm.
 
-## Quick start
+# Important
 
-Copy the original files of the game you want to play in a directory.
+- This is RnD project only with many limitations (original ScummVM is working better)
 
-`NScumm.MonoGame.exe [game]`
+- This is the synthez of 2 ScummVM UWP ports made by: 1) Scemino; 2) Bashar Astifan
 
-## Supported Games
+- The extended database added in hope to extend the engines list, even if the new game detected it might not work
 
-### SCUMM Games by LucasArts
-    The Curse of Monkey Island
-    The Dig
-    Full Throttle
-    Sam & Max Hit the Road
-    Day of the Tentacle
-    Indiana Jones and the Fate of Atlantis
-    Monkey Island 2: LeChuck's revenge
-    The Secret of Monkey Island
-    The Passport to Adventure (Demo)
-    Loom
-    Indiana Jones and the Last Crusade
-    Zak McKracken and the Alien Mindbenders
-    Maniac Mansion
 
-### Others
-    Beneath a Steel Sky by Revolution Software
-    Broken Sword: The Shadow of the Templars by Revolution Software
+# My 2 cents
+  
+- ARM appx package
 
-## Hotkeys
+- Test resources (LOOM)
+ 
 
-### SCUMM
-    F5                     - Show the main menu
-### Beneath a Steel Sky
-    Ctrl-f                 - Toggle fast mode
-    Ctrl-g                 - Runs in really REALLY fast mode
-    F5                     - Displays a save/load box
-    Escape                 - Skips the game intro
-    p                      - Pauses the game
+# Features
 
-### Broken Sword
-    F5 or Escape           - Displays a save/load box
+- Extended games database (Future usage)
 
-## Contact
+- Add your custom database (As ScummVM.dat)
 
-Missing games in your language or anything else ? Feel free to contact me at scemino74 at gmail
+- Fix some wrong md5 results
 
-Screenshots
------------
+- Async loader to avoid UI block
 
-![nscumm screenshot](https://raw.github.com/scemino/nscumm/master/Doc/Images/nscumm.png)
+- Export/Import Saves
 
-## Tools
+- Shortcuts for touch screens
 
-`nsdump` dumps all images and scripts from SCUMM 3 to SCUMM 8.
+- Layouts improvement
 
-## License
+- Bugs fixes
 
-Copyright (C) 2012-2015  Valéry Sablonnière
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+#Limitations
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+- You cannot go back to the games list (for now)
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- Actions like clear games list requires app restart
+
+- Cannot delete specific game (for now)
+
+
+# Known Issue
+
+- GC (Garbage Collector) causing low performance
+
+
+# Target
+
+To me, it will work with build 15063 on ARM (x64 or x86 cause app halts)
+
+
+# Supported Games
+
+Check SupportedGames.txt
+
+
+# Credits
+
+Developed by Scemino
+
+Enhanced by Bashar Astifan
+

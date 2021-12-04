@@ -61,8 +61,14 @@ namespace NScumm.Scumm.IO
         {
             if (_fs != null)
             {
-                _fs.Dispose();
-                _fs = null;
+                try
+                {
+                    _fs.Dispose();
+                    _fs = null;
+                }catch(Exception ex)
+                {
+
+                }
             }
         }
         #endregion

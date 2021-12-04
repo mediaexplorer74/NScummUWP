@@ -5,10 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Class="NScumm.MonoGame.GameLibraryPage"
+    xmlns:visualizer="using:NotificationsVisualizerLibrary"
     mc:Ignorable="d">
-    <!--xmlns:Universal="using:Microsoft.AdMediator.Universal"-->
 
-        <Page.Resources>
+    <Page.Resources>
         <DataTemplate x:Name="GameTemplate">
             <StackPanel Orientation="Vertical" Margin="4" >
                 <TextBlock Text="{Binding Description}" Style="{StaticResource BaseTextBlockStyle}" />
@@ -21,6 +21,13 @@
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomBar">
             <AppBarButton Icon="Add" x:Uid="AddGameButton" Label="Add" Command="{Binding AddCommand}"/>
+            <AppBarButton Icon="Help"  Label="Help" Click="AppBarButton_Click"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="OpenFile" Label="Import Database" x:Name="ImportDataBase" Click="ImportDataBase_Click"></AppBarButton>
+                <AppBarButton Icon="Switch" Label="Unset Database" x:Name="UnsetDatabase" Click="UnsetDatabase_Click"></AppBarButton>
+                <AppBarSeparator></AppBarSeparator>
+                <AppBarButton Icon="Delete" Label="Clear List" x:Name="ClearList" Click="ImportDataBase_Click_1"></AppBarButton>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -41,35 +48,39 @@
         <!-- Status -->
         <StackPanel Grid.Row="1" x:Name="ProgressPanel" Orientation="Vertical" Margin="4" Visibility="Collapsed">
             <ProgressBar IsIndeterminate="True" />
-            <TextBlock x:Uid="ScanningGamesTextBlock" Text="Scanning games..." />
+            <TextBlock x:Name="ScanningGamesTextBlock" x:Uid="ScanningGamesTextBlock" Text="Scanning games..." />
+            <ProgressBar x:Name="ScanningGamesTextBlockProgress"/>
         </StackPanel>
         <!-- Game list -->
         <ListView Grid.Row="2" x:Name="GameListBox" ItemClick="OnLaunchGame" IsItemClickEnabled="True" 
 			ItemsSource="{Binding Games}" ItemTemplate="{StaticResource GameTemplate}" />
+        <visualizer:PreviewTile Grid.Row="2"
+    x:Name="WidePreviewTile"
+    IsAnimationEnabled="True"
+    TileSize="Wide" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" Grid.RowSpan="2"/>
         <!-- NoGame message -->
         <TextBlock x:Name="NoGameTextBlock" x:Uid="NoGameTextBlock" Text="There is no game in your library.&#xA;Press Add button to add your SCUMM games." 
 			Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="4" />
         <!-- AdMediator -->
-        <!--Universal:AdMediatorControl x:Name="AdMediator_0A5E56" /-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="wideView">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
-                    <!--VisualState.Setters>
+                    <VisualState.Setters>
                         <Setter Target="AdMediator_0A5E56.(Grid.Row)" Value="2"/>
                         <Setter Target="AdMediator_0A5E56.(Grid.Column)" Value="1"/>
                         <Setter Target="AdMediator_0A5E56.(Control.Width)" Value="300"/>
                         <Setter Target="AdMediator_0A5E56.(Control.Height)" Value="250"/>
-                    </VisualState.Setters-->
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="narrowView">
                     <VisualState.Setters>
-                        <!--Setter Target="AdMediator_0A5E56.(Grid.Row)" Value="3"/>
+                        <Setter Target="AdMediator_0A5E56.(Grid.Row)" Value="3"/>
                         <Setter Target="AdMediator_0A5E56.(Grid.Column)" Value="0"/>
                         <Setter Target="AdMediator_0A5E56.(Control.Width)" Value="300"/>
-                        <Setter Target="AdMediator_0A5E56.(Control.Height)" Value="50"/-->
+                        <Setter Target="AdMediator_0A5E56.(Control.Height)" Value="50"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
