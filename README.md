@@ -1,14 +1,11 @@
-<p align="center">
-  <h3 align="center">nSCUMM</h3>
+# nSCUMM - The SCUMM client for the Windows 10 platform - RnD only (draft)
+    
+<br>
+<br>
 
-  <p align="center">
-    The SCUMM client for the Windows 10 platform - RnD only (not ready)
-    <br>
-    <br>
-    <a href="https://github.com/mediaexplorer74/nscumm/releases/tag/1.1.14>Download (ARM package+LOOM test game)</a>   
-  </p>
-</p>
+<a href="https://github.com/mediaexplorer74/nscumm/releases/tag/1.1.14>Download (ARM package+LOOM test game)</a>   
 
+<br>
 <br>
 
 ## my 2 cents
