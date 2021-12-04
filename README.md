@@ -1,12 +1,6 @@
 # nSCUMM - The SCUMM client for the Windows 10 platform - RnD only (draft)
     
-<br>
-<br>
-
-<a href="https://github.com/mediaexplorer74/nscumm/releases/tag/1.1.14>Download (ARM package+LOOM test game)</a>   
-
-<br>
-<br>
+Download ARM package and LOOM test game (https://github.com/mediaexplorer74/nscumm/releases/tag/1.1.14)
 
 ## my 2 cents
 1. RnD nSCUMM by scemino (https://github.com/scemino/nscumm)
