@@ -4,11 +4,11 @@
     xmlns:local="using:NScumm.MonoGame"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Universal="using:Microsoft.AdMediator.Universal"
     x:Class="NScumm.MonoGame.GameLibraryPage"
     mc:Ignorable="d">
+    <!--xmlns:Universal="using:Microsoft.AdMediator.Universal"-->
 
-    <Page.Resources>
+        <Page.Resources>
         <DataTemplate x:Name="GameTemplate">
             <StackPanel Orientation="Vertical" Margin="4" >
                 <TextBlock Text="{Binding Description}" Style="{StaticResource BaseTextBlockStyle}" />
@@ -50,26 +50,26 @@
         <TextBlock x:Name="NoGameTextBlock" x:Uid="NoGameTextBlock" Text="There is no game in your library.&#xA;Press Add button to add your SCUMM games." 
 			Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="4" />
         <!-- AdMediator -->
-        <Universal:AdMediatorControl x:Name="AdMediator_0A5E56" />
+        <!--Universal:AdMediatorControl x:Name="AdMediator_0A5E56" /-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="wideView">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
+                    <!--VisualState.Setters>
                         <Setter Target="AdMediator_0A5E56.(Grid.Row)" Value="2"/>
                         <Setter Target="AdMediator_0A5E56.(Grid.Column)" Value="1"/>
                         <Setter Target="AdMediator_0A5E56.(Control.Width)" Value="300"/>
                         <Setter Target="AdMediator_0A5E56.(Control.Height)" Value="250"/>
-                    </VisualState.Setters>
+                    </VisualState.Setters-->
                 </VisualState>
                 <VisualState x:Name="narrowView">
                     <VisualState.Setters>
-                        <Setter Target="AdMediator_0A5E56.(Grid.Row)" Value="3"/>
+                        <!--Setter Target="AdMediator_0A5E56.(Grid.Row)" Value="3"/>
                         <Setter Target="AdMediator_0A5E56.(Grid.Column)" Value="0"/>
                         <Setter Target="AdMediator_0A5E56.(Control.Width)" Value="300"/>
-                        <Setter Target="AdMediator_0A5E56.(Control.Height)" Value="50"/>
+                        <Setter Target="AdMediator_0A5E56.(Control.Height)" Value="50"/-->
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />

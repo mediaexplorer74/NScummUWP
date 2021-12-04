@@ -1,74 +1,61 @@
-# NSCUMM
+<p align="center">
+  <h3 align="center">nSCUMM</h3>
 
-Quick and dirty .NET rewrite of the SCUMM and Virtual Theatre engines of the project scummvm.
+  <p align="center">
+    The SCUMM client for the Windows 10 platform - RnD only (not ready)
+    <br>
+    <br>
+    <a href="https://www.microsoft.com/store/apps/1111111111111">Download (broken link)</a>   
+  </p>
+</p>
 
-## Quick start
+<br>
 
-Copy the original files of the game you want to play in a directory.
+## Build instructions
+1. First, check that you have the [necessary tools](#requirements) installed.
+2. Clone the repo `git clone --recursive https://github.com/mediaexplorer74/nscumm.git`.
+3. Update all project dependencies
+4. Try to compile the UWP app for needed platform (ARM, x32, x64)
+5. Try to load some SCUMMVM-compatible game like "The Dig" or Larry 5 =)
 
-`NScumm.MonoGame.exe [game]`
+## Requirements
+The following tools and SDKs are mandatory for the project development:
+* Visual Studio 2017, with
+    * .NET Native
+    * .NET Framework 4.5 SDK
+    * NuGet package manager
+    * Universal Windows Platform tools
+    * Windows 10 SDK 15063
 
-## Supported Games
 
-### SCUMM Games by LucasArts
-    The Curse of Monkey Island
-    The Dig
-    Full Throttle
-    Sam & Max Hit the Road
-    Day of the Tentacle
-    Indiana Jones and the Fate of Atlantis
-    Monkey Island 2: LeChuck's revenge
-    The Secret of Monkey Island
-    The Passport to Adventure (Demo)
-    Loom
-    Indiana Jones and the Last Crusade
-    Zak McKracken and the Alien Mindbenders
-    Maniac Mansion
+## Current and planned features
+not ready
 
-### Others
-    Beneath a Steel Sky by Revolution Software
-    Broken Sword: The Shadow of the Templars by Revolution Software
+## Bugs and feature requests
+not ready. DIY =)
 
-## Hotkeys
+## Contributing
+...
 
-### SCUMM
-    F5                     - Show the main menu
-### Beneath a Steel Sky
-    Ctrl-f                 - Toggle fast mode
-    Ctrl-g                 - Runs in really REALLY fast mode
-    F5                     - Displays a save/load box
-    Escape                 - Skips the game intro
-    p                      - Pauses the game
+## Changelog
+1.1.14 - some strange errors after app package build attempts =(
 
-### Broken Sword
-    F5 or Escape           - Displays a save/load box
+## Community
+...
 
-## Contact
 
-Missing games in your language or anything else ? Feel free to contact me at scemino74 at gmail
+## Special thanks
+Scemino (https://github.com/scemino/) Original NSSCUMM developer/author
 
-Screenshots
------------
-
-![nscumm screenshot](https://raw.github.com/scemino/nscumm/master/Doc/Images/nscumm.png)
-
-## Tools
-
-`nsdump` dumps all images and scripts from SCUMM 3 to SCUMM 8.
 
 ## License
+Copyright © 2015-2021 [nSCUMM Authors](https://github.com/scemino/nscumm/graphs/contributors).
 
-Copyright (C) 2012-2015  Valéry Sablonnière
+nSCUMM free software: you can redistribute it and / or modify it under the terms of the GNU General Public License 
+as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+nSCUMM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with nSCUMM. 
+If not, see http://www.gnu.org/licenses/.
