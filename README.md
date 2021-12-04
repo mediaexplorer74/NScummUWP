@@ -5,18 +5,39 @@
     The SCUMM client for the Windows 10 platform - RnD only (not ready)
     <br>
     <br>
-    <a href="https://www.microsoft.com/store/apps/1111111111111">Download (broken link)</a>   
+    <a href="https://github.com/mediaexplorer74/nscumm/releases/tag/1.1.14>Download (ARM package+LOOM test game)</a>   
   </p>
 </p>
 
 <br>
 
+## my 2 cents
+1. RnD nSCUMM by scemino (https://github.com/scemino/nscumm)
+2. RnD nSCUMMUWP by Bashar Astifan (https://github.com/basharast/NScummUWP) 
+3. Little try to synthes some UWP app for Win10Mobile os...
+
+## Screenshots
+-----------
+
+![nscumm screenshot 1](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
+![nscumm screenshot 2](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot2.png)
+![nscumm screenshot 3](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot3.png)
+![nscumm screenshot 4](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot4.png)
+![nscumm screenshot 5](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot5.png)
+![nscumm screenshot 6](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot6.png)
+![nscumm screenshot 7](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot7.png)
+![nscumm screenshot 8](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot8.png)
+![nscumm screenshot 9](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot9.png)
+
+
 ## Build instructions
 1. First, check that you have the [necessary tools](#requirements) installed.
 2. Clone the repo `git clone --recursive https://github.com/mediaexplorer74/nscumm.git`.
 3. Update all project dependencies
-4. Try to compile the UWP app for needed platform (ARM, x32, x64)
-5. Try to load some SCUMMVM-compatible game like "The Dig" or Larry 5 =)
+4. Try to compile the UWP app for needed platform (ARM is best one...)
+5. Try to load some SCUMMVM-compatible game like "LOOM" (the game resources must be located at your WinPhone at first)
+6. Test game process...
+ 
 
 ## Requirements
 The following tools and SDKs are mandatory for the project development:
@@ -29,23 +50,25 @@ The following tools and SDKs are mandatory for the project development:
 
 
 ## Current and planned features
-not ready
+[section not ready]
 
 ## Bugs and feature requests
-not ready. DIY =)
+no sound (?)
+[section not ready]
 
 ## Contributing
-...
+[section not ready]
 
 ## Changelog
-1.1.14 - some strange errors after app package build attempts =(
+1.1.14 - my first attemt to recover this "game system"...
 
 ## Community
-...
+[section not ready]
 
 
 ## Special thanks
-Scemino (https://github.com/scemino/) Original nSCUMM developer/author
+Scemino (https://github.com/scemino/) Original nSCUMM's developer/author (project nSCUMM)
+Bashar Astifan (https://github.com/basharast) nSCUMM's developer/remaker/enhancer (see his project NScummUWP)
 
 
 ## License
