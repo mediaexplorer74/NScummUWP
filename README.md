@@ -27,7 +27,6 @@
 ![nscumm screenshot 6](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot6.png)
 ![nscumm screenshot 7](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot7.png)
 ![nscumm screenshot 8](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot8.png)
-![nscumm screenshot 9](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot9.png)
 
 
 ## Build instructions
