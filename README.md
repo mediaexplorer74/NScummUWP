@@ -14,11 +14,9 @@
 ## my 2 cents
 1. RnD nSCUMM by scemino (https://github.com/scemino/nscumm)
 2. RnD nSCUMMUWP by Bashar Astifan (https://github.com/basharast/NScummUWP) 
-3. Little try to synthes some UWP app for Win10Mobile os...
+3. Little try to synthez nSCUMM UWP app for Win10Mobile os...
 
 ## Screenshots
------------
-
 ![nscumm screenshot 1](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
 ![nscumm screenshot 2](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot2.png)
 ![nscumm screenshot 3](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot3.png)
@@ -35,7 +33,7 @@
 3. Update all project dependencies
 4. Try to compile the UWP app for needed platform (ARM is best one...)
 5. Try to load some SCUMMVM-compatible game like "LOOM" (the game resources must be located at your WinPhone at first)
-6. Test game process...
+6. Test game process... =)
  
 
 ## Requirements
