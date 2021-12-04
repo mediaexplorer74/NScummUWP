@@ -56,6 +56,7 @@ no sound (?)
 
 ## Special thanks
 Scemino (https://github.com/scemino/) Original nSCUMM's developer/author (project nSCUMM)
+
 Bashar Astifan (https://github.com/basharast) nSCUMM's developer/remaker/enhancer (see his project NScummUWP)
 
 
