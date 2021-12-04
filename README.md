@@ -45,7 +45,7 @@ not ready. DIY =)
 
 
 ## Special thanks
-Scemino (https://github.com/scemino/) Original NSSCUMM developer/author
+Scemino (https://github.com/scemino/) Original nSCUMM developer/author
 
 
 ## License
