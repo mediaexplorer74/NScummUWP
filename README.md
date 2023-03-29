@@ -1,8 +1,6 @@
-# NScummUWP 
+# NScummUWP v1.2
 The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
     
-Download ARM package and LOOM test game (https://github.com/mediaexplorer74/nscumm/releases/tag/1.1.14)
-
 ## my 2 cents
 1. RnD nSCUMM by scemino (https://github.com/scemino/nscumm)
 2. RnD nSCUMMUWP by Bashar Astifan (https://github.com/basharast/NScummUWP) 

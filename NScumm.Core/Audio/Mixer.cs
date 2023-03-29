@@ -349,7 +349,7 @@ namespace NScumm.Core.Audio
                 Volume = volume;
             }
 
-            public bool Mute;
+            public bool Mute = default;
             public readonly int Volume;
         }
     }

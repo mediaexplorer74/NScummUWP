@@ -2166,7 +2166,8 @@ namespace NScumm.Sword1
             if (_nBars >= O_GRID_SIZE)
             {
 #if DEBUG //Check for id > number in file,
-                throw new InvalidOperationException($"RouteFinder Error too many _bars {_nBars}");
+                //throw new InvalidOperationException($"RouteFinder Error too many _bars {_nBars}");
+                Debug.WriteLine($"RouteFinder Error too many _bars {_nBars}");
 #endif
                 _nBars = 0;
             }
@@ -2176,7 +2177,8 @@ namespace NScumm.Sword1
             if (_nNodes >= O_GRID_SIZE)
             {
 #if DEBUG //Check for id > number in file,
-                throw new InvalidOperationException($"RouteFinder Error too many nodes {_nNodes}");
+                //throw new InvalidOperationException($"RouteFinder Error too many nodes {_nNodes}");
+                Debug.WriteLine($"RouteFinder Error too many nodes {_nNodes}");
 #endif
                 _nNodes = 0;
             }

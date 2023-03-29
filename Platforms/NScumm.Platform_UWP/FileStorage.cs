@@ -7,6 +7,7 @@ using Windows.Storage;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System;
+using System.Diagnostics;
 
 namespace NScumm
 {
@@ -137,7 +138,7 @@ namespace NScumm
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine("[ex] FileStorage ex.: "+ ex.Message);
                 }
             }
             else
@@ -155,7 +156,7 @@ namespace NScumm
                 }
                 catch (Exception ex)
                 {
-                   
+                    Debug.WriteLine("[!] " + ex.Message);
                 }
             }
             return fileContent;
@@ -180,7 +181,7 @@ namespace NScumm
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine("[!!] " + ex.Message);
                 }
             }
             var installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;

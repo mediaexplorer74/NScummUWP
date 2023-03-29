@@ -17,6 +17,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using NScumm.Core;
 
 namespace NScumm.Sword1
@@ -598,7 +599,8 @@ namespace NScumm.Sword1
         //The game is halted for debugging. Maybe we'll remove this later.
         private int fnTalkError(SwordObject cpt, int id, int c, int d, int e, int f, int z, int x)
         {
-            throw new InvalidOperationException($"fnTalkError for id {id}, instruction {cpt.down_flag}");
+            //throw new InvalidOperationException($"fnTalkError for id {id}, instruction {cpt.down_flag}");
+            Debug.WriteLine("$\"fnTalkError for id {id}, instruction {cpt.down_flag}");
             return SCRIPT_STOP; // for compilers that don't support NORETURN
         }
 
@@ -1065,7 +1067,8 @@ namespace NScumm.Sword1
 
         private int fnInnerSpace(SwordObject cpt, int id, int a, int b, int c, int d, int z, int x)
         {
-            throw new InvalidOperationException("fnInnerSpace() not working");
+            //throw new InvalidOperationException("fnInnerSpace() not working");
+            Debug.WriteLine("[ex] fnInnerSpace() not working");
             return SCRIPT_STOP; // for compilers that don't support NORETURN
         }
 
