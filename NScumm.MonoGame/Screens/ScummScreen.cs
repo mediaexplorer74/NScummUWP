@@ -1,24 +1,4 @@
-﻿//
-//  ScummScreen.cs
-//
-//  Author:
-//       scemino <scemino74@gmail.com>
-//
-//  Copyright (c) 2014 
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
+﻿using System;
 using NScumm.Core;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -66,7 +46,9 @@ namespace NScumm.MonoGame
 
                 font = ScreenManager.Content.Load<SpriteFont>("Fonts/MenuFont");
                 inputManager = new XnaInputManager(ScreenManager.Game, info.Game);
-                gfx = new XnaGraphicsManager(info.Game.Width, info.Game.Height, info.Game.PixelFormat, game.Window, ScreenManager.GraphicsDevice);
+                gfx = new XnaGraphicsManager(info.Game.Width, info.Game.Height, 
+                    info.Game.PixelFormat, game.Window, ScreenManager.GraphicsDevice);
+                
                 ScreenManager.Game.Services.AddService<Core.Graphics.IGraphicsManager>(gfx);
                 var saveFileManager = ServiceLocator.SaveFileManager;
 #if WINDOWS_UWP
@@ -108,7 +90,12 @@ namespace NScumm.MonoGame
                 }
                 else
                 {
-                    GamePage.ShowTileHandler.Invoke(new string[] { "Failed State", "Start failed!", $"Failed to start the game", "Engine cannot start" }, EventArgs.Empty);
+                    GamePage.ShowTileHandler.Invoke(new string[]
+                    { 
+                        "Failed State", "Start failed!",
+                        $"Failed to start the game", 
+                        "Engine cannot start" }, 
+                        EventArgs.Empty);
                 }
                 //callGCTimer(true);
             }
@@ -129,7 +116,8 @@ namespace NScumm.MonoGame
 
         public override void HandleInput(InputState input)
         {
-            if (input.IsNewKeyPress(Keys.Enter) && input.CurrentKeyboardState.IsKeyDown(Keys.LeftControl))
+            if (input.IsNewKeyPress(Keys.Enter) 
+                && input.CurrentKeyboardState.IsKeyDown(Keys.LeftControl))
             {
                 var gdm = ((ScummGame)game).GraphicsDeviceManager;
                 gdm.ToggleFullScreen();
@@ -149,7 +137,9 @@ namespace NScumm.MonoGame
 
         private void UpdateFrameRate()
         {
+#if WINDOWS_UWP
             GamePage.FPSHandler.Invoke(null, EventArgs.Empty);
+#endif
         }
         public override void Draw(GameTime gameTime)
         {
@@ -216,7 +206,8 @@ namespace NScumm.MonoGame
                 {
                     if (!ReduceFreezesInProgress)
                     {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                            CoreDispatcherPriority.High, async () =>
                         {
                             updateGCCaller();
                         });

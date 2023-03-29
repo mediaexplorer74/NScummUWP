@@ -55,12 +55,28 @@ namespace NScumm.MonoGame
             FPSHandler += FPSHandlerCall;
 
             
-            ShowTile(WidePreviewTile, 3500, "Game Started", "Game successfully started", new string[] { "If blackscreen wait..", "The engine is loading" });
+            ShowTile(WidePreviewTile, 3500, "Game Started", 
+                "Game successfully started", 
+                new string[] { "If blackscreen wait..", "The engine is loading" });
         }
 
 
         int frameRate = 0;
-        public int FrameRate { get { int tempValue = frameRate; frameRate = 0; return tempValue; } set { frameRate = value; } }
+        public int FrameRate 
+        { 
+            get 
+            { 
+                int tempValue = frameRate; 
+                frameRate = 0; 
+
+                return tempValue; 
+            } 
+            set 
+            { 
+                frameRate = value;
+            } 
+        }
+
         private void UpdateFrameRate()
         {
             Interlocked.Increment(ref frameRate);
@@ -73,7 +89,9 @@ namespace NScumm.MonoGame
                 FPSTimer?.Dispose();
                 if (startState)
                 {
-                    FPSTimer = new Timer(delegate { UpdateFPSCounter(null, EventArgs.Empty); }, null, 0, 1000);
+                    FPSTimer = 
+                        new Timer(delegate { UpdateFPSCounter(null, EventArgs.Empty); },
+                        null, 0, 1000);
                 }
             }
             catch (Exception e)
@@ -114,7 +132,8 @@ namespace NScumm.MonoGame
             try
             {
                 var senderArray = (string[])sender;
-                ShowTile(WidePreviewTile, 2000, senderArray[0], senderArray[1], new string[] { (senderArray.Length > 2 ? senderArray[2] : "") });
+                ShowTile(WidePreviewTile, 2000, senderArray[0], senderArray[1], new string[] 
+                { (senderArray.Length > 2 ? senderArray[2] : "") });
             }
             catch (Exception ex)
             {
@@ -180,7 +199,8 @@ namespace NScumm.MonoGame
             try
             {
                 var messageDialog = new MessageDialog("Do you want to exit?");
-                messageDialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                messageDialog.Commands.Add(new UICommand("Exit", 
+                    new UICommandInvokedHandler(this.CommandInvokedHandler)));
                 messageDialog.Commands.Add(new UICommand("Dismiss"));
                 await messageDialog.ShowAsync();
             }
@@ -230,10 +250,36 @@ namespace NScumm.MonoGame
 
         private void GamePanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            ToggleMenu.Focus(FocusState.Unfocused);
-            ExitGame.Focus(FocusState.Unfocused);
-            ToggleKeyboard.Focus(FocusState.Unfocused);
-            MenuBar.Focus(FocusState.Unfocused);
+            try
+            {
+                ToggleMenu.Focus(FocusState.Unfocused);
+            }
+            catch (Exception ex)
+            {
+            }
+
+            try
+            {
+                ExitGame.Focus(FocusState.Unfocused);
+            }
+            catch (Exception ex)
+            {
+            }
+
+            try
+            {
+                ToggleKeyboard.Focus(FocusState.Unfocused);
+            }
+            catch (Exception ex)
+            {
+            }
+            try
+            {
+                MenuBar.Focus(FocusState.Unfocused);
+            }
+            catch (Exception ex)
+            {
+            }       
         }
 
         private async void ImportSaves_Click(object sender, RoutedEventArgs e)

@@ -32,7 +32,8 @@ namespace NScumm
         public IWrappedObject WriteStructure(byte[] data, int offset, Type type)
         {
             var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            return new WrappedObject(handle, Marshal.PtrToStructure(handle.AddrOfPinnedObject() + offset, type));
+            return new WrappedObject(handle, Marshal.PtrToStructure(handle.AddrOfPinnedObject() + offset, 
+                type));
         }
 
         public async void Sleep(int timeInMs)

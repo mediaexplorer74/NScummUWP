@@ -161,8 +161,11 @@ namespace NScumm.MonoGame
             {
                 Frame rootFrame = Window.Current.Content as Frame;
                 var messageDialog = new MessageDialog("Do you want to exit?");
-                messageDialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler(this.CommandInvokedHandler)));
+
+                messageDialog.Commands.Add(new UICommand("Exit", 
+                    new UICommandInvokedHandler(this.CommandInvokedHandler)));
                 messageDialog.Commands.Add(new UICommand("Dismiss"));
+                
                 await messageDialog.ShowAsync();
                 e.Handled = true;
             }catch(Exception ex)
@@ -175,7 +178,7 @@ namespace NScumm.MonoGame
             // Display message showing the label of the command that was invoked
             CoreApplication.Exit();
         }
-        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             if (e != null)
             {

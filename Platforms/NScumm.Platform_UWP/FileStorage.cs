@@ -1,5 +1,4 @@
 ﻿using NScumm.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +6,7 @@ using System.IO;
 using Windows.Storage;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System;
 
 namespace NScumm
 {
@@ -24,7 +24,8 @@ namespace NScumm
 
         public IEnumerable<string> EnumerateFiles(string path)
         {
-            var folder = StorageFolder.GetFolderFromPathAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+            var folder = StorageFolder.GetFolderFromPathAsync(path)
+                .AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
             var items = folder.GetFilesAsync().AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
             return items.Select(item => item.Path);
         }
@@ -43,8 +44,10 @@ namespace NScumm
             }
             else
             {
-                var folder = StorageFolder.GetFolderFromPathAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
-                var folders = folder.GetFoldersAsync().AsTask().ConfigureAwait(false).GetAwaiter().GetResult().Select(f => f.Path);
+                var folder = StorageFolder.GetFolderFromPathAsync(path)
+                    .AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                var folders = folder.GetFoldersAsync()
+                    .AsTask().ConfigureAwait(false).GetAwaiter().GetResult().Select(f => f.Path);
                 var allFolders = folders.Concat(new string[] { folder.Path });
                 return allFolders.SelectMany(f => EnumerateFiles(f, searchPattern));
             }
@@ -52,7 +55,8 @@ namespace NScumm
 
         public bool FileExists(string path)
         {
-            return EnumerateFiles(GetDirectoryName(path)).Any(f => StringComparer.OrdinalIgnoreCase.Equals(f, path));
+            return EnumerateFiles(GetDirectoryName(path))
+                .Any(f => StringComparer.OrdinalIgnoreCase.Equals(f, path));
         }
 
         public bool DirectoryExists(string path)
@@ -123,10 +127,12 @@ namespace NScumm
             {
                 try
                 {
-                    var localLocation = (StorageFile)ApplicationData.Current.LocalFolder.TryGetItemAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    var localLocation = (StorageFile)ApplicationData.Current.LocalFolder
+                        .TryGetItemAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
                     if (localLocation != null)
                     {
-                        fileContent = FileIO.ReadTextAsync(localLocation).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                        fileContent = FileIO.ReadTextAsync(localLocation)
+                            .AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
                     }
                 }
                 catch (Exception ex)
@@ -138,10 +144,13 @@ namespace NScumm
             {
                 try
                 {
-                    var installedLocation = (StorageFile)Windows.ApplicationModel.Package.Current.InstalledLocation.TryGetItemAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    var installedLocation = (StorageFile)Windows.ApplicationModel
+                        .Package.Current.InstalledLocation.TryGetItemAsync(path)
+                        .AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
                     if (installedLocation != null)
                     {
-                        fileContent = FileIO.ReadTextAsync(installedLocation).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                        fileContent = FileIO.ReadTextAsync(installedLocation)
+                            .AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
                     }
                 }
                 catch (Exception ex)
@@ -157,7 +166,9 @@ namespace NScumm
             {
                 try
                 {
-                    var localLocation = (StorageFile)ApplicationData.Current.LocalFolder.TryGetItemAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    var localLocation = (StorageFile)ApplicationData
+                        .Current.LocalFolder.TryGetItemAsync(path).AsTask()
+                        .ConfigureAwait(false).GetAwaiter().GetResult();
                     if (localLocation != null)
                     {
                         return OpenFileRead(localLocation.Path);
@@ -180,7 +191,8 @@ namespace NScumm
         public Stream OpenFileRead(string path)
         {
             this.Trace().Write("IO", "Read {0}", path);
-            var file = StorageFile.GetFileFromPathAsync(path).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+            var file = StorageFile.GetFileFromPathAsync(path).AsTask()
+                .ConfigureAwait(false).GetAwaiter().GetResult();
             var stream = file.OpenStreamForReadAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             return stream;
         }
