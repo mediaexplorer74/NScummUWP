@@ -1,23 +1,9 @@
-//
 //  ScummEngine3.cs
 //
 //  Author:
 //       Scemino <scemino74@gmail.com>
 //
 //  Copyright (c) 2014 
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -1236,11 +1222,16 @@ namespace NScumm.Scumm
 
         protected void StartMusic()
         {
+            Debug.WriteLine("[i] StartMusic");
+            Debug.WriteLine("Game.Version=" + Game.Version);
+            //RnD if(true)...; if(1==0)...
             if (Game.Platform == Platform.FMTowns && Game.Version == 3)
             {
                 // In FM-TOWNS games this is some kind of Audio CD status query function.
                 // See also bug #762589 (thanks to Hibernatus for providing the information).
                 GetResult();
+
+                // RnD
                 int b = GetVarOrDirectByte(OpCodeParameter.Param1);
                 int result = 0;
                 switch (b)
@@ -1265,14 +1256,22 @@ namespace NScumm.Scumm
                         // TODO: return track length in seconds. We'll have to extend Sound and OSystem for this.
                         // To check scummvm returns the right track length you
                         // can look at the global script #9 (0x888A in 49.LFL).
+
+                        //RnD
+                        //result = TownsPlayer.GetCurrentCdaVolume();
+
                         break;
                 }
-                Debug.WriteLine("o5_startMusic({0})", b);
+                Debug.WriteLine("o5_startMusic(Volume: {0})", b);
                 SetResult(result);
+                //RnD
+                //int tt = 128;//GetVarOrDirectByte(OpCodeParameter.Param1);
+                //Sound.AddSoundToQueue(tt);
             }
             else
             {
-                Sound.AddSoundToQueue(GetVarOrDirectByte(OpCodeParameter.Param1));
+                int tt = GetVarOrDirectByte(OpCodeParameter.Param1);
+                Sound.AddSoundToQueue(tt);
             }
         }
 
@@ -1602,8 +1601,14 @@ namespace NScumm.Scumm
 
             if (obj < 1)
             {
-                throw new InvalidOperationException(
-                    string.Format("pickupObject received invalid index {0} (script {1})", obj, Slots[CurrentScript].Number));
+                //throw new InvalidOperationException(
+                //    string.Format("pickupObject received invalid index {0} (script {1})", 
+                //    obj, Slots[CurrentScript].Number));
+                Debug.WriteLine(string.Format("pickupObject received invalid index {0} (script {1})",
+                   obj.ToString(), Slots[CurrentScript].Number.ToString()));
+
+                //?
+                return; 
             }
 
             if (GetObjectIndex(obj) == -1)
@@ -2462,7 +2467,10 @@ namespace NScumm.Scumm
                     DrawSentence();
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("DoSentence: unknown subopcode {0}", _opCode));
+                    //throw new NotSupported
+                    //(string.Format("DoSentence: unknown subopcode {0}", _opCode));
+                    Debug.WriteLine(string.Format("DoSentence: unknown subopcode {0}", _opCode));
+                    break;
             }
         }
 
@@ -2654,7 +2662,10 @@ namespace NScumm.Scumm
                         a.TalkColor = (byte)arg;
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("ActorOps: opcode {0} not yet supported", _opCode));
+                    //throw new NotSupportedException(
+                    //    string.Format("ActorOps: opcode {0} not yet supported", _opCode));
+                    Debug.WriteLine(string.Format("ActorOps: opcode {0} not yet supported", _opCode));
+                    break;
             }
         }
 
@@ -2811,7 +2822,8 @@ namespace NScumm.Scumm
             if (GetWhereIsObject(obj) != WhereIsObject.NotFound)
             {
                 // FIXME: this might not work properly the moment we save and restore the game.
-                throw new NotSupportedException();
+                //throw new NotSupportedException();
+                Debug.WriteLine("[ex] ScummEngine2 : NotSupportedException");
             }
         }
 

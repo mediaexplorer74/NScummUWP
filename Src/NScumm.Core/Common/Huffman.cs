@@ -121,7 +121,9 @@ namespace NScumm.Core.Common
                 }
             }
 
-            throw new InvalidOperationException("Unknown Huffman code");
+            //throw new InvalidOperationException("Unknown Huffman code");
+            Debug.WriteLine(" [ex] (Huffman.cs) Unknown Huffman code");
+            return default;
         }
     }
 }

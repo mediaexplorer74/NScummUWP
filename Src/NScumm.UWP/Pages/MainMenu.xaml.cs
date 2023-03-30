@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.Storage;
+using System.Diagnostics;
 
 namespace NScumm.MonoGame.Pages
 {
@@ -88,13 +89,14 @@ namespace NScumm.MonoGame.Pages
             try
             {
                 var messageDialog = new MessageDialog("Do you want to exit?");
-                messageDialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                messageDialog.Commands.Add(new UICommand("Exit", 
+                    new UICommandInvokedHandler(this.CommandInvokedHandler)));
                 messageDialog.Commands.Add(new UICommand("Dismiss"));
                 await messageDialog.ShowAsync();
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] MainMenu : " + ex.Message);
             }
         }
         private void CommandInvokedHandler(IUICommand command)
@@ -201,7 +203,7 @@ namespace NScumm.MonoGame.Pages
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] MainMenu : " + ex.Message);
             }
             var messageDialog = new MessageDialog(message.Message);
             messageDialog.Commands.Add(new UICommand(
@@ -220,7 +222,7 @@ namespace NScumm.MonoGame.Pages
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] MainMenu : " + ex.Message);
             }
             var messageDialog = new MessageDialog(message);
             messageDialog.Commands.Add(new UICommand(

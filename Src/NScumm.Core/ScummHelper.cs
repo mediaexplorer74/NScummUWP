@@ -21,6 +21,7 @@ using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using System.Collections;
+using System.Diagnostics;
 
 namespace NScumm.Core
 {
@@ -159,7 +160,10 @@ namespace NScumm.Core
         {
             if (value < min || value > max)
             {
-                throw new ArgumentOutOfRangeException("value", string.Format("{0} {1} is out of bounds ({2},{3})", desc, value, min, max));
+                //throw new ArgumentOutOfRangeException("value", string.Format("{0} {1} is out of bounds ({2},{3})", desc, value, min, max));
+                Debug.WriteLine("[ex] (ScummHelper) : ", "value", string.Format("{0} {1} is out of bounds ({2},{3})", desc, value, min, max));
+                // TEMP / RnD
+                value = max;
             }
         }
 

@@ -440,15 +440,26 @@ namespace NScumm.Scumm.IO
                             continue;
                         tmp2 = GB(aksq, curpos, 4);
                         if (tmp2 < 1 || tmp2 > 3)
-                            throw new InvalidOperationException(string.Format("akos_increaseAnim:8 invalid code {0}", tmp2));
+                        {
+                            //throw new InvalidOperationException(
+                            //    string.Format("akos_increaseAnim:8 invalid code {0}", tmp2));
+                            Debug.WriteLine("[ex] AkosCosumeLoader : " +
+                                string.Format("akos_increaseAnim:8 invalid code {0}", tmp2));
+                        }
+
                         akos_queCommand((byte)(tmp2 + 6), a, a.Sounds[tmp], GB(aksq, curpos, 6), vm);
                         continue;
                     case AkosOpcode.SetDrawOffs:
                         akos_queCommand(6, a, GW(aksq, curpos, 2), GW(aksq, curpos, 4), vm);
                         continue;
                     case AkosOpcode.JumpTable:
+
                         if (akfo == null)
-                            throw new InvalidOperationException("akos_increaseAnim: no AKFO table");
+                        {
+                            //throw new InvalidOperationException("akos_increaseAnim: no AKFO table");
+                            Debug.WriteLine("[ex] akos_increaseAnim: no AKFO table");
+                        }
+
                         tmp = a.GetAnimVar(GB(aksq, curpos, 2)) - 1;
 //                        if (_game.heversion >= 80)
 //                        {
@@ -459,7 +470,13 @@ namespace NScumm.Scumm.IO
 //                        else
                         {
                             if (tmp < 0 || tmp > numakfo - 1)
-                                throw new InvalidOperationException(string.Format("akos_increaseAnim: invalid jump value {0}", tmp));
+                            {
+                                //throw new InvalidOperationException(
+                                //   string.Format("akos_increaseAnim: invalid jump value {0}", tmp));
+                                Debug.WriteLine("[ex] "+
+                                    string.Format("akos_increaseAnim: invalid jump value {0}", tmp)
+                                    );
+                            }
                             curpos = BitConverter.ToUInt16(akfo, tmp);
                         }
                         break;
@@ -591,7 +608,12 @@ namespace NScumm.Scumm.IO
                         continue;
                     default:
                         if (((short)code & 0xC000) == 0xC000)
-                            throw new InvalidOperationException(string.Format("Undefined uSweat token {0:X}", code));
+                        {
+                            //throw new InvalidOperationException
+                            //   (string.Format("Undefined uSweat token {0:X}", code));
+                            Debug.WriteLine("[ex] "+
+                                string.Format("Undefined uSweat token {0:X}", code));
+                        }
                         break;
                 }
                 break;
@@ -605,7 +627,13 @@ namespace NScumm.Scumm.IO
                 code2 != (int)AkosOpcode.Return && code2 != (int)AkosOpcode.EndSeq &&
                 code2 != (int)AkosOpcode.C08E && code2 != (int)AkosOpcode.ComplexChan2 &&
                 code2 != (int)AkosOpcode.C021 && code2 != (int)AkosOpcode.C022)
-                throw new InvalidOperationException(string.Format("Ending with undefined uSweat token {0:X}", code2));
+            {
+                //throw new InvalidOperationException(
+                //    string.Format("Ending with undefined uSweat token {0:X}", code2));
+                Debug.WriteLine(
+                    "[ex] (AkosCosumeLoader) Invalid op. ex. :"+
+                    string.Format("Ending with undefined uSweat token {0:X}", code2));
+            }
 
             a.Cost.Curpos[chan] = (ushort)curpos;
 

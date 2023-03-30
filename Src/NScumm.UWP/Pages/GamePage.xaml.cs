@@ -211,7 +211,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
             }
         }
         private void CommandInvokedHandler(IUICommand command)
@@ -250,6 +250,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage (ToggleKbd) : " + ex.Message);
             }
         }
 
@@ -261,6 +262,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage / GamePanel : " + ex.Message);
             }
 
             try
@@ -269,6 +271,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
             }
 
             try
@@ -277,6 +280,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
             }
             try
             {
@@ -284,6 +288,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
             }       
         }
 
@@ -315,7 +320,7 @@ namespace NScumm.MonoGame
                         }
                         catch (Exception ex)
                         {
-
+                            Debug.WriteLine("[ex] GamePage / ImportSaves: " + ex.Message);
                         }
                     });
                     await taskCompletionSource.Task;
@@ -374,7 +379,7 @@ namespace NScumm.MonoGame
                             }
                             catch (Exception ex)
                             {
-
+                                Debug.WriteLine("[ex] GamePage : " + ex.Message);
                             }
                         }, cancellationTokenSource.Token);
                         await taskCompletionSource2.Task;
@@ -409,7 +414,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
             }
             var messageDialog = new MessageDialog(message.Message);
             messageDialog.Commands.Add(new UICommand(
@@ -422,13 +427,14 @@ namespace NScumm.MonoGame
             {
                 if (log)
                 {
-                    var logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("log.txt", CreationCollisionOption.OpenIfExists);
+                    var logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(
+                        "log.txt", CreationCollisionOption.OpenIfExists);
                     await FileIO.AppendTextAsync(logFile, message);
                 }
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
             }
             var messageDialog = new MessageDialog(message);
             messageDialog.Commands.Add(new UICommand(
@@ -441,7 +447,10 @@ namespace NScumm.MonoGame
             try
             {
                 var messageDialog = new MessageDialog("Do you want to delete all saves?");
-                messageDialog.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.CommandInvokedHandler2)));
+
+                messageDialog.Commands.Add(new UICommand("Delete", 
+                    new UICommandInvokedHandler(this.CommandInvokedHandler2)));
+
                 messageDialog.Commands.Add(new UICommand("Cancel"));
                 await messageDialog.ShowAsync();
 
@@ -489,6 +498,8 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage : " + ex.Message);
+
                 ShowDialog(ex);
             }
 
@@ -514,6 +525,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GamePage / ShowTile : " + ex.Message);
                 tile.VisualElements.BackgroundColor = Windows.UI.Color.FromArgb(177, 0, 0, 0);
             }
             tile.VisualElements.ShowNameOnSquare150x150Logo = true;
@@ -537,20 +549,24 @@ namespace NScumm.MonoGame
             // Using NotificationsExtensions.Win10 NuGet package
             TileBindingContentAdaptive bindingContent = new TileBindingContentAdaptive();
             // Add the date header
+#pragma warning disable CS0618 // Тип или член устарел
             bindingContent.Children.Add(new TileText()
             {
                 Text = message
             });
+#pragma warning restore CS0618 // Тип или член устарел
 
             if (description != null && description.Length > 0)
             {
                 foreach (var dItem in description)
                 {
+#pragma warning disable CS0618 // Тип или член устарел
                     bindingContent.Children.Add(new TileText()
                     {
                         Text = dItem,
                         Style = TileTextStyle.CaptionSubtle
                     });
+#pragma warning restore CS0618 // Тип или член устарел
                 }
             }
 

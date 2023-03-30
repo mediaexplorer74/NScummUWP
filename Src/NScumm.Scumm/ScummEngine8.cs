@@ -234,7 +234,8 @@ namespace NScumm.Scumm
                 return;
             }
 
-            throw new NotSupportedException("Illegal varbits (w)");
+            //throw new NotSupportedException("Illegal varbits (w)");
+            Debug.WriteLine("[ex] (ScummEngine8) Illegal varbits (w)");
         }
 
         protected override void DecodeParseString(int m, int n)

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 
 namespace NScumm.Core.Audio
 {
@@ -91,7 +92,8 @@ namespace NScumm.Core.Audio
         {
             if (channels < 1)
             {
-                throw new ArgumentOutOfRangeException("channels", "Channels must be 1 or greater");
+                //throw new ArgumentOutOfRangeException("channels", "Channels must be 1 or greater");
+                Debug.WriteLine("[error] channels : Channels must be 1 or greater");
             }
             _channels = channels;
             _sampleRate = rate;

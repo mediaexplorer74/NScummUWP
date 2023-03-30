@@ -1,23 +1,10 @@
-﻿//
-//  Player_Towns_v1.cs
+﻿//  Player_Towns_v1.cs
 //
 //  Author:
 //       scemino <scemino74@gmail.com>
 //
 //  Copyright (c) 2015 
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 using System.Diagnostics;
 using NScumm.Core;
@@ -82,7 +69,8 @@ namespace NScumm.Scumm.Audio.Players
 
                 velocity = velocity != 0 ? (byte)(velocity >> 2) : (byte)(ptr[offset + 14] >> 1);
                 ushort len = (ushort)(ptr.ToUInt16(offset) + 2);
-                PlayPcmTrack(sound, ptr, offset + 6, velocity, 64, note != 0 ? note : (len > 50 ? ptr[offset + 50] : 60), ptr.ToUInt16(offset + 10));
+                PlayPcmTrack(sound, ptr, offset + 6, velocity, 64, 
+                    note != 0 ? note : (len > 50 ? ptr[offset + 50] : 60), ptr.ToUInt16(offset + 10));
 
             }
             else if (type == 1)
@@ -210,7 +198,12 @@ namespace NScumm.Scumm.Audio.Players
             int start = (ptr[offset + 2] * 60 + ptr[offset + 3]) * 75 + ptr[offset + 4];
             int end = (ptr[offset + 5] * 60 + ptr[offset + 6]) * 75 + ptr[offset + 7];
 
-            _vm.Sound.PlayCDTrack(track, _cdaNumLoops == 0xff ? -1 : _cdaNumLoops, start, end <= start ? 0 : end - start);
+            _vm.Sound.PlayCDTrack
+             (track, 
+              _cdaNumLoops == 0xff 
+                ? -1 
+                : _cdaNumLoops, start, end <= start ? 0 : end - start
+             );
             _cdaForceRestart = 0;
             _cdaCurrentSound = (byte)sound;
         }
@@ -286,8 +279,13 @@ namespace NScumm.Scumm.Audio.Players
 
                 pan = pan != 0 ? (((pan << 7) - pan) + 50) / 100 : 64;
 
-                PlayPcmTrack(sound, ptr, offset + 6, velo != 0 ? velo : ptr[offset + 14] >> 1, pan, note != 0 ? note : ptr[offset + 50], pri);
-
+                PlayPcmTrack(sound,
+                    ptr, 
+                    offset + 6, 
+                    velo != 0  ? velo  : ptr[offset + 14] >> 1, 
+                    pan, 
+                    note != 0 ? note : ptr[offset + 50], pri
+                    );
             }
             else if (ptr[offset + 13] == 2)
             {

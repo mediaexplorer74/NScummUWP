@@ -5,9 +5,10 @@
 using Microsoft.Xna.Framework;
 using NScumm.Core.IO;
 using System;
+using System.Diagnostics;
 
 namespace NScumm.MonoGame
-{ 
+{
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -40,8 +41,10 @@ namespace NScumm.MonoGame
                 GraphicsDeviceManager = new GraphicsDeviceManager(this);
 #if !WINDOWS_UWP
             Settings = settings;
-            GraphicsDeviceManager.PreferredBackBufferWidth = 800;
-            GraphicsDeviceManager.PreferredBackBufferHeight = (int)(800.0 * Settings.Game.Height / Settings.Game.Width);
+            GraphicsDeviceManager.PreferredBackBufferWidth 
+               = 800;
+            GraphicsDeviceManager.PreferredBackBufferHeight 
+                = (int)(800.0 * Settings.Game.Height / Settings.Game.Width);
 #else
                 Settings = new GameSettings(GamePage.Info.Game, GamePage.Info.Engine);
                 GraphicsDeviceManager.PreferredBackBufferWidth = Settings.Game.Width;
@@ -49,9 +52,10 @@ namespace NScumm.MonoGame
 #endif
                 _screenManager = new ScreenManager(this);
                 Components.Add(_screenManager);
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-
+                Debug.WriteLine("[ex] ScummGame (constructor) : " + ex.Message);
             }
         }
 
@@ -70,20 +74,23 @@ namespace NScumm.MonoGame
                 _screenManager.AddScreen(new ScummScreen(this, Settings));
 
                 base.Initialize();
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-
+                Debug.WriteLine("[ex] ScummGame / Initialize : " + ex.Message);
             }
         }
 
         protected override void EndRun()
         {
-            try {
+            try 
+            {
                 _screenManager.EndRun();
                 base.EndRun();
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-
+                Debug.WriteLine("[ex] ScummGame (EndRun) : " + ex.Message);
             }
         }
     }

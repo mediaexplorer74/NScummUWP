@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -265,10 +266,12 @@ namespace NScumm.MonoGame
                                 continue;
                             }
                         }
-                    }catch(Exception ex)
-                    {
-
                     }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine("[ex] NativeArchiveHelper : " + ex.Message);
+                    }
+                    
                     ZipArchiveEntry entry = archive.CreateEntry(separator + file.Name, compLevel);
 
                     using (Stream stream = entry.Open())

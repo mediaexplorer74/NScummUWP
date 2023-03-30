@@ -48,7 +48,8 @@ namespace NScumm.Core.Audio
 
             if (inrate >= 131072 || outrate >= 131072)
             {
-                throw new ArgumentOutOfRangeException("rate effect can only handle rates < 131072");
+                //throw new ArgumentOutOfRangeException("rate effect can only handle rates < 131072");
+                Debug.WriteLine("[ex] (LinearRate...) Rate effect can only handle rates < 131072");
             }
             
 

@@ -150,17 +150,23 @@ namespace NScumm.Core
     {
         public static MidiParser CreateRO()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Debug.WriteLine("[ex] RO Midi Parser : not implemented.");
+            return default;
         }
 
         public static MidiParser CreateXMidiParser()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Debug.WriteLine("[ex] X Midi Parser : not implemented.");
+            return default;
         }
 
         public static MidiParser CreateSmfParser()
         {
-            return new SmfMidiParser();
+            //return new SmfMidiParser();
+            Debug.WriteLine("[ex] Smf Midi Parser : not implemented.");
+            return default;
         }
 
         /// <summary>

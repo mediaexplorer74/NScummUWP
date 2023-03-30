@@ -155,7 +155,7 @@ namespace NScumm.Scumm
                 case 215:
                     if ((_extraBoxFlags[args[1]] & 0x00FF) == 0x00C0)
                     {
-                        Push(_extraBoxFlags[args[1]]);
+                        Push((int)_extraBoxFlags[args[1]]);
                     }
                     else
                     {

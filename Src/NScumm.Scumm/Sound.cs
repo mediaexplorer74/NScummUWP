@@ -1,22 +1,9 @@
-/*
- * This file is part of NScumm.
- *
- * NScumm is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * NScumm is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with NScumm.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Sound.cs
+// This file is part of NScumm.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -169,7 +156,10 @@ namespace NScumm.Scumm
             {
                 var param = new int[8];
                 Array.Copy(items, param, Math.Min(8, items.Length));
-                imuseDigital.ParseScriptCmds(param[0], param[1], param[2], param[3], param[4], param[5], param[6], param[7]);
+
+                imuseDigital.ParseScriptCmds(param[0], param[1], param[2], param[3], 
+                    param[4], param[5], param[6], param[7]);
+
                 return;
             }
 
@@ -248,7 +238,8 @@ namespace NScumm.Scumm
                     finished = !_mixer.IsSoundHandleActive(_talkChannelHandle);
                 }
 
-                if ((uint)act < 0x80 && ((vm.Game.Version == 8) || (vm.Game.Version <= 7 && !vm.String[0].NoTalkAnim)))
+                if ((uint)act < 0x80 && ((vm.Game.Version == 8) 
+                    || (vm.Game.Version <= 7 && !vm.String[0].NoTalkAnim)))
                 {
                     var a = vm.Actors[act];
                     if (a.IsInCurrentRoom)
@@ -335,8 +326,10 @@ namespace NScumm.Scumm
             short _currentMusic = 0;
             var soundEntries = new[]
             {
-                LoadAndSaveEntry.Create(r => _currentCDSound = r.ReadInt16(), writer => writer.WriteInt16(_currentCDSound), 35),
-                LoadAndSaveEntry.Create(r => _currentMusic = r.ReadInt16(), writer => writer.WriteInt16(_currentMusic), 35),
+                LoadAndSaveEntry.Create(r => _currentCDSound 
+                = r.ReadInt16(), writer => writer.WriteInt16(_currentCDSound), 35),
+                LoadAndSaveEntry.Create(r => _currentMusic 
+                = r.ReadInt16(), writer => writer.WriteInt16(_currentMusic), 35),
             };
 
             soundEntries.ForEach(e => e.Execute(serializer));
@@ -362,7 +355,8 @@ namespace NScumm.Scumm
 
             _mixer.PauseAll(pause);
 
-            if (vm.Game.Features.HasFlag(GameFeatures.AudioTracks) && vm.Variables[vm.VariableMusicTimer.Value] > 0)
+            if (vm.Game.Features.HasFlag(GameFeatures.AudioTracks) 
+                && vm.Variables[vm.VariableMusicTimer.Value] > 0)
             {
                 if (pause)
                     StopCDTimer();
@@ -459,7 +453,9 @@ namespace NScumm.Scumm
             if (res == null)
                 return;
 
-            if (vm.Game.Id == "monkey")
+            // Rn D
+            //if (vm.Game.Id == "monkey")
+            if (vm.Game.Id == "loom")
             {
                 // Works around the fact that in some places in MonkeyEGA/VGA,
                 // the music is never explicitly stopped.
@@ -478,7 +474,9 @@ namespace NScumm.Scumm
             }
 
             if (vm.TownsPlayer != null)
+            {
                 _currentCDSound = vm.TownsPlayer.GetCurrentCdaSound();
+            }
         }
 
         void SetupSfxFile()
@@ -531,7 +529,9 @@ namespace NScumm.Scumm
                 sfxMode |= mode;
                 if (!(vm.Game.Features.HasFlag(GameFeatures.Demo)))
                     return handle;
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
+                Debug.WriteLine("[ex] Sound / Game==Dig : Not Implemented");
+                return handle;
             }
             else
             {

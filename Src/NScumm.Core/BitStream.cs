@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -94,7 +95,9 @@ namespace NScumm.Core
                     _valueBits = 32;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(type));
+                    //throw new ArgumentOutOfRangeException(nameof(type));
+                    Debug.WriteLine("[ex] (BitStream.cs) ArgumentOutOfRangeException : " + nameof(type));
+                    break;
             }
         }
 
@@ -111,7 +114,10 @@ namespace NScumm.Core
                     case BitStreamType.ThirtyTwoBits:
                         return _br.ReadUInt32();
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        //throw new ArgumentOutOfRangeException();
+                        Debug.WriteLine("[ex] (BitStream) ArgumentOutOfRangeException");
+                        return default;
+                        //break;
                 }
             }
 
@@ -125,6 +131,8 @@ namespace NScumm.Core
                     return _br.ReadUInt32BigEndian();
                 default:
                     throw new ArgumentOutOfRangeException();
+                    return default;
+                    //break;
             }
         }
 
@@ -150,7 +158,12 @@ namespace NScumm.Core
         public void AddBit(ref uint x, int n)
         {
             if (n >= 32)
-                throw new InvalidOperationException("BitStreamImpl.AddBit(): Too many bits requested to be read");
+            {
+                //throw new InvalidOperationException("BitStreamImpl.AddBit(): Too many bits requested to be read");
+                Debug.WriteLine("[ex] BitStreamImpl.AddBit(): Too many bits requested to be read");
+                // RnD
+                n = 32;
+            }
 
             if (_isMsb2Lsb)
                 x = (x << 1) | GetBit();
@@ -189,7 +202,13 @@ namespace NScumm.Core
                 return 0;
 
             if (n > 32)
-                throw new InvalidOperationException("BitStream::GetBits(): Too many bits requested to be read");
+            {
+                //throw new InvalidOperationException("BitStream::GetBits(): Too many bits requested to be read");
+                Debug.WriteLine(
+                    "BitStream::GetBits(): Too many bits requested to be read");
+                // dirty ...     
+                n = 32;
+            }
 
             // Read the number of bits
             uint v = 0;
@@ -235,7 +254,11 @@ namespace NScumm.Core
         private void ReadValue()
         {
             if (Size - Position < _valueBits)
-                throw new InvalidOperationException("BitStreamImpl::readValue(): End of bit stream reached");
+            {
+                //throw new InvalidOperationException("BitStreamImpl::readValue(): End of bit stream reached");
+                Debug.WriteLine("[ex] InvalidOperationException : " +
+                    "BitStreamImpl::readValue(): End of bit stream reached");
+            }
 
             _value = ReadData();
 

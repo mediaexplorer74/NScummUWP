@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 
 namespace NScumm.Core.Audio.SampleProviders
 {
@@ -32,11 +33,13 @@ namespace NScumm.Core.Audio.SampleProviders
         {
             if (audioSampleProvider.AudioFormat.Channels != 1)
             {
-                throw new ArgumentException("audioSampleProvider expected to be Mono");
+                //throw new ArgumentException("audioSampleProvider expected to be Mono");
+                Debug.WriteLine("[ex] AudioSampleProvider expected to be Mono");
             }
             if (audioSampleProvider.AudioFormat.BitsPerSample != 16)
             {
-                throw new ArgumentException("audioSampleProvider expected to be 16 bit");
+                //throw new ArgumentException("audioSampleProvider expected to be 16 bit");
+                Debug.WriteLine("[ex] AudioSampleProvider expected to be 16 bit");
             }
 
             _audioSampleProvider = audioSampleProvider;

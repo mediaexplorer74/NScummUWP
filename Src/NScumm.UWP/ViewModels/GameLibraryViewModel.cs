@@ -196,7 +196,8 @@ namespace NScumm.MonoGame.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine("!! Exception !!" +  ex.Message);
+                            Debug.WriteLine("[ex] GameDetector.DetectGame : " +  ex.Message +
+                               "[" + path + "] [" + ex.StackTrace.ToString() + "]");
                         }
                     }
 

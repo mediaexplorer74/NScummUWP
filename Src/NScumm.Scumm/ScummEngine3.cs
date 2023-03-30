@@ -1,23 +1,9 @@
-//
 //  ScummEngine3.cs
 //
 //  Author:
 //       Scemino <scemino74@gmail.com>
 //
 //  Copyright (c) 2014 
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -43,7 +29,8 @@ namespace NScumm.Scumm
         {
             ResetScummVarsCore();
 
-            Variables[VariableCurrentLights.Value] = (int)(LightModes.ActorUseBasePalette | LightModes.ActorUseColors | LightModes.RoomLightsOn);
+            Variables[VariableCurrentLights.Value] = 
+                (int)(LightModes.ActorUseBasePalette | LightModes.ActorUseColors | LightModes.RoomLightsOn);
 
             if (Game.Id == "monkey")
                 Variables[74] = 1225;
@@ -53,13 +40,17 @@ namespace NScumm.Scumm
         {
             if (Game.Version <= 6)
             {
+                MusicDriverTypes mustype = Sound.MusicType;
+
+                Debug.WriteLine("[i] mustype = " + mustype);
+
                 // VAR_SOUNDCARD modes
                 // 0 PC Speaker
                 // 1 Tandy
                 // 2 CMS
                 // 3 AdLib
                 // 4 Roland
-                switch (Sound.MusicType)
+                switch (mustype)
                 {
                     case MusicDriverTypes.None:
                     case MusicDriverTypes.PCSpeaker:
@@ -78,10 +69,13 @@ namespace NScumm.Scumm
                         Variables[VariableSoundcard.Value] = 4;
                         break;
                     default:
-                        if ((Game.Id == "monkey" && Game.Variant == "EGA") || (Game.Id == "monkey" && Game.Variant == "VGA")
-                            || (Game.Id == "loom" && Game.Version == 3)) /*&&  (_game.platform == Common::kPlatformDOS)*/
+
+                        if ((Game.Id == "monkey" && Game.Variant == "EGA")
+                            || (Game.Id == "monkey" && Game.Variant == "VGA")
+                            || (Game.Id == "loom" && Game.Version == 3)) 
+                            /*&&  (_game.platform == Common::kPlatformDOS)*/
                         {
-                            Variables[VariableSoundcard.Value] = 4;
+                            Variables[VariableSoundcard.Value] = 4;/*3;*/ // HACK ? RnD
                         }
                         else
                         {
@@ -106,12 +100,13 @@ namespace NScumm.Scumm
                     // Set screen size for the Macintosh version of Indy3/Loom
                     Variables[39] = 320;
                 }
-                if (Game.Platform == Platform.DOS && Game.Id == "loom" && Game.Version == 3)
+                if (/*Game.Platform == Platform.DOS &&*/ Game.Id == "loom" && Game.Version == 3)
                 {
                     // Set number of sound resources
                     Variables[39] = 80;
                 }
-                if (Game.Id == "loom" || Game.Version >= 4)
+                //RnD
+                if (Game.Id == "loom" || Game.Version >= /*4*/3)
                     Variables[VariableHeapSpace.Value] = 1400;
 
                 if (Game.Version >= 4)
@@ -145,8 +140,11 @@ namespace NScumm.Scumm
             Variables[VariableCharIncrement.Value] = 4;
             TalkingActor = 0;
 
+            // HACK-
             if (Game.Version >= 5 && Game.Version <= 7)
+            {
                 Sound.SetupSound();
+            }
         }
 
         protected override void SetupVars()
@@ -268,7 +266,9 @@ namespace NScumm.Scumm
                 return Slots[CurrentScript].LocalVariables[var];
             }
 
-            throw new NotSupportedException("Illegal varbits (r)");
+            //throw new NotSupportedException("Illegal varbits (r)");
+            Debug.WriteLine("[ex] ScummEngine3 : NotSupportedException; Illegal varbits (r)");
+            return default;
         }
 
         protected override void WriteVariable(uint index, int value)
@@ -809,7 +809,9 @@ namespace NScumm.Scumm
                     break;
 
                 default:
-                    throw new NotImplementedException("Wait: unknown subopcode" + (_opCode & 0x1F));
+                    //throw new NotImplementedException("Wait: unknown subopcode" + (_opCode & 0x1F));
+                    Debug.WriteLine("[ex] ScummEngine3 : NotImplementedException ; Wait: unknown subopcode");
+                    break;
             }
 
             CurrentPos = oldPos;
@@ -952,7 +954,9 @@ namespace NScumm.Scumm
                     break;
 
                 default:
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
+                    Debug.WriteLine("[ex]ScummEngine3 :  NotImplementedException");
+                    break;
             }
         }
 

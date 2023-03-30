@@ -36,10 +36,12 @@ namespace NScumm.Scumm
             int sound;
             for (var i = 1; i < Actors.Length; i++)
             {
+                //HACK-
                 if (Actors[i].Cost.SoundCounter != 0 && Actors[i].IsInCurrentRoom)
                 {
                     CurrentScript = 0xFF;
 
+                    //HACK-
                     if (Game.Version == 0)
                     {
                         sound = Actors[i].Sound & 0x3F;

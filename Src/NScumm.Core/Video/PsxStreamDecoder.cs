@@ -112,10 +112,12 @@ namespace NScumm.Core.Video
 
                 if (sector == null)
                     throw new InvalidOperationException("Corrupt PSX stream sector");
+
                 br = new BinaryReader(sector);
 
                 sector.Seek(0x11, SeekOrigin.Begin);
                 byte track = (byte)sector.ReadByte();
+                
                 if (track >= 32)
                     throw new InvalidOperationException("Bad PSX stream track");
 

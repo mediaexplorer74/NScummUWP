@@ -170,9 +170,10 @@ namespace NScumm.MonoGame
                 
                 await messageDialog.ShowAsync();
                 e.Handled = true;
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-
+                Debug.WriteLine("[ex] App.xaml.cs : " + ex.Message);
             }
         }
         private void CommandInvokedHandler(IUICommand command)

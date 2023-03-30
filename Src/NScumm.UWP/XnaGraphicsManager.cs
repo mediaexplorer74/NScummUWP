@@ -1,5 +1,4 @@
-﻿//
-//  XnaGraphicsManager.cs
+﻿//  XnaGraphicsManager.cs
 //
 //  Author:
 //       scemino <scemino74@gmail.com>

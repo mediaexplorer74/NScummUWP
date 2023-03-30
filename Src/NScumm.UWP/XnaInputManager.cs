@@ -1,5 +1,4 @@
-﻿//
-//  XnaInputManager.cs
+﻿//  XnaInputManager.cs
 //
 //  Author:
 //       scemino <scemino74@gmail.com>
@@ -177,7 +176,10 @@ namespace NScumm.MonoGame
 
                 _keyboardState = keyboard;
 
-                _keysPressed = new HashSet<KeyCode>(_keyboardState.GetPressedKeys().Where(KeyToKeyCode.ContainsKey).Select(key => KeyToKeyCode[key]));
+                _keysPressed = new HashSet<KeyCode>(
+                    _keyboardState.GetPressedKeys().Where(KeyToKeyCode.ContainsKey)
+                    .Select(key => KeyToKeyCode[key]));
+
                 if (_virtualKeysDown.Count > 0)
                 {
                     _virtualKeysDown.ForEach(k =>

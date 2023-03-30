@@ -259,7 +259,9 @@ namespace NScumm.Scumm.Graphics
                     BompApplyShadow3(shadowPalette, lineBuffer, linePos, dst, size, transparency);
                     break;
                 default:
-                    throw new ArgumentException(string.Format("Unknown shadow mode {0}", shadowMode));
+                    //throw new ArgumentException(string.Format("Unknown shadow mode {0}", shadowMode));
+                    Debug.WriteLine("[ex] BompDrawData : " + string.Format("Unknown shadow mode {0}", shadowMode));
+                    break;
             }
         }
 

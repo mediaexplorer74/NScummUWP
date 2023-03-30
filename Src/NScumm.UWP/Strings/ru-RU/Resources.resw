@@ -154,10 +154,10 @@
     <value>Главное меню</value>
   </data>
   <data name="New Entry" xml:space="preserve">
-    <value>Новое вхождение</value>
+    <value>Новый ввод (эл-т)</value>
   </data>
   <data name="NoGameTextBlock.Text" xml:space="preserve">
-    <value>В этой библиотеке игр пока пусто. нажмите кнопку Добавить для добавления Ваших игр.</value>
+    <value>В этой библиотеке игр пока пусто. Нажмите кнопку Добавить для добавления Ваших игр.</value>
   </data>
   <data name="ScanningGamesTextBlock.Text" xml:space="preserve">
     <value>Сканирование игр...</value>

@@ -1645,7 +1645,7 @@ namespace NScumm.Scumm
             return true;
         }
 
-        int RemapDirection(int dir, bool isWalking)
+        int RemapDirection(uint dir, bool isWalking)
         {
             BoxFlags flags;
             bool flipX;
@@ -1664,7 +1664,8 @@ namespace NScumm.Scumm
 
             if (!IgnoreBoxes || _scumm.Game.Id == "loom")
             {
-                ushort specdir = 0;
+                //ushort
+                uint specdir = 0;
 
                 try
                 {
@@ -1672,7 +1673,8 @@ namespace NScumm.Scumm
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("!! Exception !!" + ex.Message);
+                    //Debug.WriteLine("[ex] Actor / RemapDirection : " + ex.Message +
+                    //          "[" + dir + "] [" + ex.StackTrace.ToString() + "]");
                 }
 
                 if (specdir != 0)
@@ -1763,7 +1765,7 @@ namespace NScumm.Scumm
                 }
             }
             // OR 1024 in to signal direction interpolation should be done
-            return ScummMath.NormalizeAngle(dir) | 1024;
+            return ScummMath.NormalizeAngle((int)dir) | 1024;
         }
 
         protected virtual void SetupActorScale()

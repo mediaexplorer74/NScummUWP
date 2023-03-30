@@ -1,23 +1,10 @@
-//
 //  ScummEngine.cs
 //
 //  Author:
 //       Scemino <scemino74@gmail.com>
 //
 //  Copyright (c) 2014 
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 using System;
 using System.Collections;
@@ -173,12 +160,21 @@ namespace NScumm.Scumm
 
         #region Constructor
 
-        public static ScummEngine Create(GameSettings settings, IGraphicsManager gfxManager, IInputManager inputManager, IAudioOutput output, bool debugMode = false)
+        public static ScummEngine Create(GameSettings settings, IGraphicsManager gfxManager, 
+            IInputManager inputManager, IAudioOutput output, bool debugMode = false)
         {
             ScummEngine engine = null;
-            var game = (GameInfo)settings.Game;
-            var mixer = new Mixer(44100);
+            GameInfo game = (GameInfo)settings.Game;
+            Mixer mixer = new Mixer(44100);
             output.SetSampleProvider(mixer);
+
+            Debug.WriteLine("*************************");
+            Debug.WriteLine("[info] GAME VERSION = " + game.Version);
+            Debug.WriteLine("*************************");
+            
+            //HACK (RnD it)
+            //game.Version = 8;
+
 
             if (game.Version == 0)
             {
@@ -231,7 +227,8 @@ namespace NScumm.Scumm
             return sig;
         }
 
-        protected ScummEngine(GameSettings settings, IGraphicsManager gfxManager, IInputManager inputManager, IMixer mixer)
+        protected ScummEngine(GameSettings settings, IGraphicsManager gfxManager, 
+            IInputManager inputManager, IMixer mixer)
         {
             Settings = settings;
             var game = (GameInfo)settings.Game;
@@ -313,15 +310,23 @@ namespace NScumm.Scumm
             ResetCursors();
 
             // Create the text surface
-            var pixelFormat = _game.Features.HasFlag(GameFeatures.Is16BitColor) ? PixelFormat.Rgb16 : PixelFormat.Indexed8;
-            _textSurface = new Surface(ScreenWidth * _textSurfaceMultiplier, ScreenHeight * _textSurfaceMultiplier, PixelFormat.Indexed8, false);
+            var pixelFormat = _game.Features.HasFlag(GameFeatures.Is16BitColor) 
+                ? PixelFormat.Rgb16 
+                : PixelFormat.Indexed8;
+
+            _textSurface = new Surface(ScreenWidth * _textSurfaceMultiplier,
+                ScreenHeight * _textSurfaceMultiplier, PixelFormat.Indexed8, false);
             ClearTextSurface();
 
             if (Game.Platform == Platform.FMTowns)
             {
-                _townsScreen = new TownsScreen(_gfxManager, ScreenWidth * _textSurfaceMultiplier, ScreenHeight * _textSurfaceMultiplier, PixelFormat.Rgb16);
+                _townsScreen = new TownsScreen(_gfxManager, ScreenWidth * _textSurfaceMultiplier, 
+                    ScreenHeight * _textSurfaceMultiplier, PixelFormat.Rgb16);
+
                 _townsScreen.SetupLayer(0, ScreenWidth, ScreenHeight, 32767);
-                _townsScreen.SetupLayer(1, ScreenWidth * _textSurfaceMultiplier, ScreenHeight * _textSurfaceMultiplier, 16, _textPalette);
+
+                _townsScreen.SetupLayer(1, ScreenWidth * _textSurfaceMultiplier, 
+                    ScreenHeight * _textSurfaceMultiplier, 16, _textPalette);
             }
 
             if (Game.Version == 0)
@@ -371,7 +376,12 @@ namespace NScumm.Scumm
             var selectedDevice = Settings.AudioDevice;
             var deviceHandle = MidiDriver.DetectDevice(Game.Music, selectedDevice);
 
-            switch (MidiDriver.GetMusicType(deviceHandle))
+            MusicType MusType = MidiDriver.GetMusicType(deviceHandle);
+
+            //HACK
+            //MusType = MusicType.Null;
+
+            switch (MusType)
             {
                 case MusicType.Null:
                     Sound.MusicType = MusicDriverTypes.None;
@@ -403,12 +413,13 @@ namespace NScumm.Scumm
             }
 
             // Init iMuse
-            if (Game.Version >= 7)
+            if (Game.Version >= 7) // RnD : 3
             {
                 // Setup for digital iMuse is performed in another place
 
                 // HACK: don't know why I have to keep this to work
-                var adlibMidiDriver = (MidiDriver)MidiDriver.CreateMidi(Mixer, MidiDriver.DetectDevice(MusicDriverTypes.AdLib, "adlib"));
+                var adlibMidiDriver = (MidiDriver)MidiDriver.CreateMidi(Mixer, 
+                    MidiDriver.DetectDevice(MusicDriverTypes.AdLib, "adlib"));
                 // Setup for digital iMuse is performed in another place
                 Audio.IMuse.IMuse.Create(null, adlibMidiDriver);
             }
@@ -447,7 +458,8 @@ namespace NScumm.Scumm
             {
                 MusicEngine = new Player_V1(this, Mixer, Sound.MusicType == MusicDriverTypes.PCjr);
             }
-            else if ((Sound.MusicType == MusicDriverTypes.PCSpeaker || Sound.MusicType == MusicDriverTypes.PCjr) && (Game.Version >= 2 && Game.Version <= 4))
+            else if ((Sound.MusicType == MusicDriverTypes.PCSpeaker || Sound.MusicType == MusicDriverTypes.PCjr) 
+                && (Game.Version >= 2 && Game.Version <= 4))
             {
                 MusicEngine = new Player_V2(this, Mixer, Sound.MusicType == MusicDriverTypes.PCjr);
             }
@@ -457,12 +469,39 @@ namespace NScumm.Scumm
             }
             else if (Game.Platform == Platform.FMTowns && (Game.Version == 3 || Game.Id == "monkey"))
             {
+                // ^^^^^^R N D^^^^^^^^^^^
+                /*
+                MidiDriver nativeMidiDriver = null;
+                MidiDriver adlibMidiDriver = null;
+                if (Sound.MusicType == MusicDriverTypes.AdLib || Sound.MusicType == MusicDriverTypes.FMTowns)
+                {
+                    adlibMidiDriver = (MidiDriver)MidiDriver.CreateMidi(Mixer,
+                        MidiDriver.DetectDevice(Sound.MusicType == MusicDriverTypes.FMTowns
+                            ? MusicDriverTypes.FMTowns : MusicDriverTypes.AdLib, selectedDevice));
+                    adlibMidiDriver.Property(AdlibMidiDriver.PropertyOldAdLib, (Game.Version < 5) ? 1 : 0);
+                    adlibMidiDriver.Property(AdlibMidiDriver.PropertyScummOPL3, (Game.Id == "samnmax") ? 1 : 0);
+                }
+                else if (Sound.MusicType == MusicDriverTypes.PCSpeaker)
+                {
+                    adlibMidiDriver = new PCSpeakerDriver(Mixer);
+                }
+
+                IMuse = Audio.IMuse.IMuse.Create(nativeMidiDriver, adlibMidiDriver);
+
+                MusicEngine = TownsPlayer = new Player_Towns_v2(this, Mixer, IMuse, true);
+                */
+                // ^^^^^^^^^^^^^^^^^^^^^^
                 MusicEngine = TownsPlayer = new Player_Towns_v1(this, Mixer);
+
                 if (!TownsPlayer.Init())
+                {
                     Debug.WriteLine("Failed to initialize FM-Towns audio driver");
+                }
             }
-            else if (Game.Id == "loom" || Game.Id == "indy3")
+            else if (Game.Id == "loom" || Game.Id == "indy3") // 
             {
+                // caution: this sound system get some strange exceptions :(
+
                 MusicEngine = new Player_AD(this, Mixer);
             }
             else
@@ -487,8 +526,14 @@ namespace NScumm.Scumm
                 if (Game.Platform == Platform.FMTowns)
                 {
                     MusicEngine = TownsPlayer = new Player_Towns_v2(this, Mixer, IMuse, true);
+
                     if (!TownsPlayer.Init())
-                        throw new InvalidOperationException("ScummEngine::setupMusic(): Failed to initialize FM-Towns audio driver");
+                    {
+                        //throw new InvalidOperationException
+                        //    ("ScummEngine::setupMusic(): Failed to initialize FM-Towns audio driver");
+                        Debug.WriteLine
+                            ("ScummEngine::setupMusic(): Failed to initialize FM-Towns audio driver");
+                    }
                 }
                 else
                 {
@@ -497,11 +542,15 @@ namespace NScumm.Scumm
 
                 if (IMuse != null)
                 {
-                    IMuse.AddSysexHandler(0x7D, Game.Id == "samnmax" ? new SysExFunc(new SamAndMaxSysEx().Do) : new SysExFunc(new ScummSysEx().Do));
+                    IMuse.AddSysexHandler(0x7D, Game.Id == "samnmax" 
+                        ? new SysExFunc(new SamAndMaxSysEx().Do) 
+                        : new SysExFunc(new ScummSysEx().Do));
+
                     IMuse.Property(ImuseProperty.GameId, Game.Id);
-                    //                    IMuse.Property(ImuseProperty.NativeMt32, _native_mt32);
-                    //                    if (MidiDriver.GetMusicType(deviceHandle) != MusicType.MT32) // MT-32 Emulation shouldn't be GM/GS initialized
-                    //                        IMuse.Property(ImuseProperty.Gs, _enable_gs);
+
+        //  IMuse.Property(ImuseProperty.NativeMt32, _native_mt32);
+        //  if (MidiDriver.GetMusicType(deviceHandle) != MusicType.MT32) // MT-32 Emulation shouldn't be GM/GS initialized
+        //  IMuse.Property(ImuseProperty.Gs, _enable_gs);
                     if (Sound.MusicType == MusicDriverTypes.PCSpeaker)
                         IMuse.Property(ImuseProperty.PcSpeaker, 1);
                 }
@@ -527,12 +576,16 @@ namespace NScumm.Scumm
                 if (Game.Id != "monkey")
                 {
                     Gdi.Fill(TextSurface,
-                        new Rect(0, 0, _textSurface.Width * _textSurfaceMultiplier, _textSurface.Height * _textSurfaceMultiplier), 0);
+                        new Rect(0, 0, _textSurface.Width * _textSurfaceMultiplier, 
+                        _textSurface.Height * _textSurfaceMultiplier), 0);
+
                     _townsScreen.ClearLayer(1);
                 }
             }
 
-            var format = Game.Features.HasFlag(GameFeatures.Is16BitColor) ? PixelFormat.Rgb16 : PixelFormat.Indexed8;
+            var format = Game.Features.HasFlag(GameFeatures.Is16BitColor)
+                ? PixelFormat.Rgb16 
+                : PixelFormat.Indexed8;
 
             _mainVirtScreen = new VirtScreen(b, ScreenWidth, h - b, format, 2, true);
             _textVirtScreen = new VirtScreen(0, ScreenWidth, b, format, 1);
@@ -587,11 +640,20 @@ namespace NScumm.Scumm
             }
             if (_opCodes.ContainsKey(opCode))
             {
-                _opCodes[opCode]();
+                try
+                {
+                    _opCodes[opCode]();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("[ex] ScummEngine :  _opCodes[opCode]() error; opCode=" + opCode);
+                }
             }
             else
             {
-                throw new InvalidOperationException(string.Format("Invalid opcode 0x{0:X2}.", opCode));
+                //throw new InvalidOperationException(string.Format("Invalid opcode 0x{0:X2}.", opCode));
+                Debug.WriteLine("[ex] InvalidOperationException:  ", 
+                    string.Format("Invalid opcode 0x{0:X2}.", opCode));
             }
         }
 
@@ -878,7 +940,10 @@ namespace NScumm.Scumm
             {
                 CurrentPos += offset;
                 if (CurrentPos < 0)
-                    throw new NotSupportedException("Invalid position in JumpRelative");
+                {
+                    //throw new NotSupportedException("Invalid position in JumpRelative");
+                    Debug.WriteLine("[ex] ScummEngine : Invalid position in JumpRelative");
+                }
             }
         }
 

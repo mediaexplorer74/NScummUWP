@@ -1,4 +1,7 @@
-﻿using System;
+﻿// ScummScreen.cs
+//
+
+using System;
 using NScumm.Core;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +14,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using System.Threading;
 using System.Runtime;
+using System.Diagnostics;
 
 namespace NScumm.MonoGame
 {
@@ -59,7 +63,7 @@ namespace NScumm.MonoGame
                 audioDriver.Play();
 
                 //init engines
-                for (var i = 0; i < 9; i++)
+                for (int i = 0; i < 9; i++)
                 {
                     try
                     {
@@ -68,6 +72,8 @@ namespace NScumm.MonoGame
                     }
                     catch (Exception ex)
                     {
+                        Debug.WriteLine("[ex] ScummScreen : " + ex.Message);
+
                         engineFaildToStart = true;
                         break;
                         //Is it a good idea to test other version if the current faild?
@@ -194,6 +200,8 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] ScummScreen : " + ex.Message);
+
                 NoGCRegionState = false;
             }
 
@@ -216,6 +224,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] ScummScreen : " + ex.Message);
             }
         }
         private void callGCTimer(bool startState = false)
@@ -237,6 +246,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] ScummScreen : " + ex.Message);
                 NoGCRegionState = false;
             }
         }

@@ -5,6 +5,7 @@
 
 
 using System;
+using System.Diagnostics;
 using NScumm.Core.Audio;
 
 namespace NScumm.Core.Video
@@ -98,7 +99,12 @@ namespace NScumm.Core.Video
             Stop();
 
             var stream = AudioStream;
-            if (stream == null) throw new InvalidOperationException("stream should not be null");
+
+            if (stream == null)
+            {
+                //throw new InvalidOperationException("stream should not be null");
+                Debug.WriteLine("[ex] (AudioTrack.cs) Stream should not be null");
+            }
 
             _handle = Mixer.PlayStream(SoundType, stream, -1, _muted ? 0 : Volume, Balance, false);
 
@@ -116,7 +122,11 @@ namespace NScumm.Core.Video
             //throw new NotImplementedException();
             
             var stream = AudioStream;
-            if (stream == null) throw new InvalidOperationException("stream should not be null");
+            if (stream == null)
+            {
+                //throw new InvalidOperationException("stream should not be null");
+                Debug.WriteLine("[ex] (AudioTrack.cs) Stream should not be null");
+            }
 
             //    stream = new LimitingAudioStream(stream, limit, false);
 

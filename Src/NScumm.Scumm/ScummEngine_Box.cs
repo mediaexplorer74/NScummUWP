@@ -32,7 +32,8 @@ namespace NScumm.Scumm
         protected List<byte> _boxMatrix = new List<byte>();
         Box[] _boxes;
         readonly ScaleSlot[] _scaleSlots;
-        internal ushort[] _extraBoxFlags = new ushort[65];
+        //internal ushort[] _extraBoxFlags = new ushort[65];
+        internal uint[] _extraBoxFlags = new uint[6500];
 
         internal BoxFlags GetBoxFlags(byte boxNum)
         {

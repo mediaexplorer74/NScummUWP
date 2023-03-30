@@ -116,7 +116,12 @@ namespace NScumm.Scumm.Graphics
                 return;
 
             if (size > 256)
-                throw new InvalidOperationException(string.Format("akos_setPalette: {0} is too many colors", size));
+            {
+                //throw new InvalidOperationException(
+                //    string.Format("akos_setPalette: {0} is too many colors", size));
+                Debug.WriteLine("[ex] AkosRenderer : "+
+                    string.Format("akos_setPalette: {0} is too many colors", size));
+            }
 
 //            if (vm.Game.Features.HasFlag(GameFeatures.16BITCOLOR) {
 //                if (_paletteNum) {
@@ -310,7 +315,11 @@ namespace NScumm.Scumm.Graphics
                         result |= Codec16(xmoveCur, ymoveCur);
                         break;
                     default:
-                        throw new InvalidOperationException(string.Format("akos_drawLimb: invalid _codec {0}", _codec));
+                        //throw new InvalidOperationException(
+                        //    string.Format("akos_drawLimb: invalid _codec {0}", _codec));
+                        Debug.WriteLine("[ex] AkosRenderer : " 
+                            + string.Format("akos_drawLimb: invalid _codec {0}", _codec));
+                        break;
                 }
             }
             else
@@ -769,7 +778,8 @@ namespace NScumm.Scumm.Graphics
                                     }
                                     else if (ShadowMode == 2)
                                     {
-                                        throw new NotImplementedException("codec1_spec2"); // TODO
+                                        //throw new NotImplementedException("codec1_spec2"); // TODO
+                                        Debug.WriteLine("[ex] AkosRender : codec1_spec2 not implemented");
                                     }
                                     else if (ShadowMode == 3)
                                     {

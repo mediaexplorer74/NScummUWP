@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Diagnostics;
 using System.Linq;
 using NScumm.Core.Audio.Midi;
 
@@ -178,7 +179,11 @@ namespace NScumm.Core.Audio
             var p = MusicManager.GetPlugins();
 
             if (p.Count == 0)
-                throw new NotSupportedException("MidiDriver.GetDeviceHandle: Music plugins must be loaded prior to calling this method");
+            {
+                //throw new NotSupportedException("MidiDriver.GetDeviceHandle: Music plugins must be loaded prior to calling this method");
+                Debug.WriteLine("[ex] NotSupported : " 
+                    + "MidiDriver.GetDeviceHandle: Music plugins must be loaded prior to calling this method");
+            }
 
             foreach (var m in p)
             {

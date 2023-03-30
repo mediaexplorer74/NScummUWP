@@ -38,16 +38,24 @@ namespace NScumm.MonoGame
                 var currentView = SystemNavigationManager.GetForCurrentView();
                 currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine("!! Exception !! " + e.Message);
+                Debug.WriteLine("[ex] GameLibraryPage : " + ex.Message +
+                             " [" + ex.StackTrace.ToString() + "]");
             }
 
 
             DataContext = new GameLibraryViewModel();
-            NoGameTextBlock.SetBinding(VisibilityProperty, new Binding { Path = new PropertyPath("ShowNoGameMessage"), Converter = new ShowNoGameMessageToVisibilityConverter() });
-            ProgressPanel.SetBinding(VisibilityProperty, new Binding { Path = new PropertyPath("IsScanning"), Converter = new IsScanningToVisibilityConverter() });
-            ScanningGamesTextBlockProgress.SetBinding(ProgressBar.ValueProperty, new Binding { Path = new PropertyPath("LoadingProgressValue") });
+            NoGameTextBlock.SetBinding(VisibilityProperty, new Binding {
+                Path = new PropertyPath("ShowNoGameMessage"), 
+                Converter = new ShowNoGameMessageToVisibilityConverter() });
+
+            ProgressPanel.SetBinding(VisibilityProperty, new Binding { 
+                Path = new PropertyPath("IsScanning"), 
+                Converter = new IsScanningToVisibilityConverter() });
+
+            ScanningGamesTextBlockProgress.SetBinding(ProgressBar.ValueProperty, new Binding { 
+                Path = new PropertyPath("LoadingProgressValue") });
             
             GamePage.ShowTile(WidePreviewTile, 1500, "Welcome", $"NSCUMM v{GetAppVersion()}");
         }
@@ -60,7 +68,8 @@ namespace NScumm.MonoGame
                 PackageId packageId = package.Id;
                 PackageVersion version = packageId.Version;
 
-                return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+                return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor,
+                    version.Build, version.Revision);
             }
             catch (Exception ex)
             {
@@ -74,8 +83,15 @@ namespace NScumm.MonoGame
             var vm = e.ClickedItem as GameViewModel;
             if (vm != null)
             {
-                GamePage.ShowTile(WidePreviewTile, 1500, "Starting Game", $"{vm.Game.Game.Description}", new string[] { $"Id: {vm.Game.Game.Id}", $"Platform: {vm.Game.Game.Platform}", $"Pixel: {vm.Game.Game.PixelFormat}" });
+                GamePage.ShowTile(WidePreviewTile, 1500, 
+                    "Starting Game", $"{vm.Game.Game.Description}", 
+                    new string[] {
+                        $"Id: {vm.Game.Game.Id}", 
+                        $"Platform: {vm.Game.Game.Platform}",
+                        $"Pixel: {vm.Game.Game.PixelFormat}" });
                 await Task.Delay(1500);
+
+                // go to Game page
                 Frame.Navigate(typeof(GamePage), vm.Game);
             }
         }
@@ -164,7 +180,10 @@ namespace NScumm.MonoGame
             try
             {
                 var messageDialog = new MessageDialog("Do you want to clear all listed games?");
-                messageDialog.Commands.Add(new UICommand("Clear", new UICommandInvokedHandler(this.CommandInvokedHandler2)));
+
+                messageDialog.Commands.Add(new UICommand("Clear", 
+                    new UICommandInvokedHandler(this.CommandInvokedHandler2)));
+
                 messageDialog.Commands.Add(new UICommand("Cancel"));
                 await messageDialog.ShowAsync();
 
@@ -182,7 +201,8 @@ namespace NScumm.MonoGame
                 {
                     ApplicationData.Current.LocalSettings.DeleteContainer("Games");
                     ApplicationData.Current.LocalSettings.DeleteContainer("Folders");
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                        CoreDispatcherPriority.Low, async () =>
                     {
                         try
                         {
@@ -192,7 +212,7 @@ namespace NScumm.MonoGame
                         }
                         catch (Exception ex)
                         {
-
+                            Debug.WriteLine("[ex] GameLibraryPage  / Clear List: " + ex.Message);
                         }
                     });
                 }
@@ -217,7 +237,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("[ex] GameLibraryPage : " + ex.Message);
             }
         }
 
@@ -229,7 +249,9 @@ namespace NScumm.MonoGame
                 if (testFile != null)
                 {
                     var messageDialog = new MessageDialog("Do you need to unset the current custom database?");
-                    messageDialog.Commands.Add(new UICommand("Unset", new UICommandInvokedHandler(this.CommandInvokedHandler3)));
+
+                    messageDialog.Commands.Add(new UICommand("Unset", 
+                        new UICommandInvokedHandler(this.CommandInvokedHandler3)));
                     messageDialog.Commands.Add(new UICommand("Cancel"));
                     await messageDialog.ShowAsync();
                 }
@@ -240,6 +262,7 @@ namespace NScumm.MonoGame
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] GameLibraryPage / Unset DB _ Click : " + ex.Message);
                 ShowDialog(ex);
             }
         }
@@ -250,10 +273,26 @@ namespace NScumm.MonoGame
         {
             switch (input)
             {
-                case null: throw new ArgumentNullException(nameof(input));
-                case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
-                default: return input[0].ToString().ToUpper() + input.Substring(1);
+                case null:
+                    //throw new ArgumentNullException(nameof(input));
+                    break;
+                case "": //throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                    break;
+                default:
+                    string s = "";
+                    try
+                    {
+                        s = input[0].ToString().ToUpper() + input.Substring(1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("[ex] (FirstCharToUpper) : " + ex.Message);
+                    }
+                    return s;
+                    //break;
+                
             }
+            return default;
         }
     }
 }
