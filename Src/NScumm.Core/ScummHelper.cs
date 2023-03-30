@@ -91,7 +91,8 @@ namespace NScumm.Core
 
         public static string LocatePath(string directory, string filename)
         {
-            return (from file in ServiceLocator.FileStorage.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories)
+            return (from file in ServiceLocator.FileStorage.EnumerateFiles(directory, "*.*", 
+                SearchOption.AllDirectories)
                     let fn = ServiceLocator.FileStorage.GetFileName(file)
                     where string.Equals(fn, filename, StringComparison.OrdinalIgnoreCase)
                     select file).FirstOrDefault();

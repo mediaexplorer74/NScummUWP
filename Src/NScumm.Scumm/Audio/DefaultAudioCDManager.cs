@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Diagnostics;
+using System.IO;
 using NScumm.Core;
 using NScumm.Core.Audio;
 
@@ -122,6 +123,9 @@ namespace NScumm.Scumm.Audio
                 string[] trackName = new string[2];
                 trackName[0] = string.Format("track{0}", track);
                 trackName[1] = string.Format("track{0:00}", track);
+
+
+                // RnD
                 ISeekableAudioStream stream = null;
                 var directory = ServiceLocator.FileStorage.GetDirectoryName(_vm.Game.Path);
                 for (int i = 0; stream == null && i < 2; ++i)
@@ -130,6 +134,7 @@ namespace NScumm.Scumm.Audio
                     if (path != null)
                     {
                         // TODO: open stream
+                        //stream.open// = new ISeekableAudioStream(path, true);
                     }
                 }
 
@@ -139,7 +144,8 @@ namespace NScumm.Scumm.Audio
                 if (stream != null)
                 {
                     var start = new Timestamp(0, startFrame, 75);
-                    var end = duration != 0 ? new Timestamp(0, startFrame + duration, 75) : stream.Length;
+                    var end = duration != 0 ? new Timestamp(0, startFrame + duration, 75)
+                        : stream.Length;
 
                     /*
             FIXME: Seems numLoops == 0 and numLoops == 1 both indicate a single repetition,

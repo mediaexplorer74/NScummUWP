@@ -57,7 +57,9 @@ namespace NScumm.Scumm
 
             // Play it
             if (!_soundsPaused)
+            {
                 vm.AudioCDManager.Play(track, numLoops, startFrame, duration);
+            }
 
             // Start the timer after starting the track. Starting an MP3 track is
             // almost instantaneous, but a CD player may take some time. Hopefully
@@ -441,9 +443,11 @@ namespace NScumm.Scumm
                     args[i] = soundQueueIMuse.Dequeue();
                 }
                 if (vm.TownsPlayer != null)
-                    vm.Variables[vm.VariableSoundResult.Value] = (short)vm.TownsPlayer.DoCommand(num, args);
+                    vm.Variables[vm.VariableSoundResult.Value] = 
+                        (short)vm.TownsPlayer.DoCommand(num, args);
                 else if (vm.IMuse != null)
-                    vm.Variables[vm.VariableSoundResult.Value] = vm.IMuse.DoCommand(num, args);
+                    vm.Variables[vm.VariableSoundResult.Value] = 
+                        vm.IMuse.DoCommand(num, args);
             }
         }
 

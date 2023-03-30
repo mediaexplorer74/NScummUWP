@@ -38,7 +38,8 @@ namespace NScumm.Scumm.Audio.Players
             WriteReg(0x08, 0x00);
             WriteReg(0x01, 0x20);
 
-            _soundHandle = _mixer.PlayStream(SoundType.Plain, this, -1, Mixer.MaxChannelVolume, 0, false, true);
+            _soundHandle = _mixer.PlayStream(SoundType.Plain, this, -1, 
+                Mixer.MaxChannelVolume, 0, false, true);
 
             _engineMusicTimer = 0;
             _soundPlaying = -1;

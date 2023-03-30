@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 
 
 
+using System;
 using System.Diagnostics;
 using NScumm.Core;
 using NScumm.Core.Audio;
@@ -54,6 +55,7 @@ namespace NScumm.Scumm.Audio.Players
             if (_vm.Game.Version != 3)
                 offset += 2;
 
+            // HACK (RnD it!)
             int type = ptr[offset + 13];
 
             if (type == 0)
@@ -69,8 +71,10 @@ namespace NScumm.Scumm.Audio.Players
 
                 velocity = velocity != 0 ? (byte)(velocity >> 2) : (byte)(ptr[offset + 14] >> 1);
                 ushort len = (ushort)(ptr.ToUInt16(offset) + 2);
+                
                 PlayPcmTrack(sound, ptr, offset + 6, velocity, 64, 
-                    note != 0 ? note : (len > 50 ? ptr[offset + 50] : 60), ptr.ToUInt16(offset + 10));
+                    note != 0 ? note : (len > 50 ? ptr[offset + 50] : 60), 
+                    ptr.ToUInt16(offset + 10));
 
             }
             else if (type == 1)
@@ -84,7 +88,8 @@ namespace NScumm.Scumm.Audio.Players
             }
 
             if (_vm.Game.Version == 3)
-                _soundOverride[sound].vLeft = _soundOverride[sound].vRight = _soundOverride[sound].note = 0;
+                _soundOverride[sound].vLeft = _soundOverride[sound].vRight 
+                    = _soundOverride[sound].note = 0;
         }
 
         public override void SetMusicVolume(int vol)
@@ -227,34 +232,81 @@ namespace NScumm.Scumm.Audio.Players
 
             src += 8;
             for (int i = 0; i < 6; i++)
-                _driver.AssignChannel(i, data[src++]);
+            {
+                try
+                {
+                    _driver.AssignChannel(i, data[src++]);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("[ex 1] " + ex.Message);
+                }
+            }
 
             for (int i = 0; i < data[offset + 14]; i++)
             {
-                _driver.LoadInstrument(i, i, data, pos + i * 48);
-                _driver.Interface.Callback(4, i, i);
+                try
+                {
+                    _driver.LoadInstrument(i, i, data, pos + i * 48);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("[ex 2] " + ex.Message);
+                }
+
+                try
+                {
+                    _driver.Interface.Callback(4, i, i);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("[ex 3] " + ex.Message);
+                }
             }
 
             _eupVolLeft = _soundOverride[sound].vLeft;
             _eupVolRight = _soundOverride[sound].vRight;
+            
             int lvl = _soundOverride[sound].vLeft + _soundOverride[sound].vRight;
+
             if (lvl == 0)
                 lvl = data[offset + 8] + data[offset + 9];
             lvl >>= 2;
 
             for (int i = 0; i < 6; i++)
-                _driver.ChanVolume(i, lvl);
+            {
+                try
+                { 
+                    _driver.ChanVolume(i, lvl);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("[ex 4] " + ex.Message);
+                }
+            }
 
             int trackSize = data.ToInt32(src);
             src += 4;
             byte startTick = data[src++];
 
             _driver.SetMusicTempo(data[src++]);
-            _driver.StartMusicTrack(data, trackData, trackSize, startTick);
+
+            try
+            {
+                _driver.StartMusicTrack(data, trackData, trackSize, startTick);
+            }
+             
+            catch (Exception ex)
+            {
+                    Debug.WriteLine("[ex 5] (StartMusicTrack) : " + ex.Message);
+            }
 
             _eupLooping = (data[src] != 1);
+
             _driver.SetMusicLoop(_eupLooping);
+            
             _driver.ContinueParsing();
+            
             _eupCurrentSound = (byte)sound;
         }
 
@@ -347,7 +399,8 @@ namespace NScumm.Scumm.Audio.Players
 
                 _pcmCurrentSound[i].paused = 0;
 
-                var ptr = _vm.ResourceManager.GetSound(_vm.Sound.MusicType, _pcmCurrentSound[i].index);
+                var ptr = _vm.ResourceManager.GetSound(_vm.Sound.MusicType, 
+                    _pcmCurrentSound[i].index);
                 if (ptr == null)
                     continue;
 
@@ -361,7 +414,8 @@ namespace NScumm.Scumm.Audio.Players
                     c++;
                 }
 
-                _driver.PlaySoundEffect(i + 0x3f, _pcmCurrentSound[i].note, _pcmCurrentSound[i].velo, ptr);
+                _driver.PlaySoundEffect(i + 0x3f, _pcmCurrentSound[i].note, 
+                    _pcmCurrentSound[i].velo, ptr);
             }
 
             _driver.Interface.Callback(73, 1);

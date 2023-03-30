@@ -1,23 +1,10 @@
-//
 //  TownsAudioInterfaceInternal.cs
 //
 //  Author:
 //       scemino <scemino74@gmail.com>
 //
 //  Copyright (c) 2015 
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 using System;
 using System.Collections.Generic;
@@ -27,7 +14,8 @@ namespace NScumm.Core.Audio.SoftSynth
 {
     class TownsAudioInterfaceInternal : TownsPC98_FmSynth
     {
-        TownsAudioInterfaceInternal(IMixer mixer, TownsAudioInterface owner, ITownsAudioInterfacePluginDriver driver, bool externalMutexHandling)
+        TownsAudioInterfaceInternal(IMixer mixer, TownsAudioInterface owner, 
+            ITownsAudioInterfacePluginDriver driver, bool externalMutexHandling)
             : base(mixer, FmSynthEmuType.Towns, externalMutexHandling)
         {
             _baserate = 55125.0f / mixer.OutputRate;
@@ -103,15 +91,19 @@ namespace NScumm.Core.Audio.SoftSynth
             };
         }
 
-        public static TownsAudioInterfaceInternal AddNewRef(IMixer mixer, TownsAudioInterface owner, ITownsAudioInterfacePluginDriver driver, bool externalMutexHandling)
+        public static TownsAudioInterfaceInternal AddNewRef(IMixer mixer, TownsAudioInterface owner,
+            ITownsAudioInterfacePluginDriver driver, bool externalMutexHandling)
         {
             _refCount++;
             if (_refCount == 1 && _refInstance == null)
-                _refInstance = new TownsAudioInterfaceInternal(mixer, owner, driver, externalMutexHandling);
+                _refInstance = new TownsAudioInterfaceInternal(mixer, owner,
+                    driver, externalMutexHandling);
             else if (_refCount < 2 || _refInstance == null)
-                throw new InvalidOperationException("TownsAudioInterfaceInternal::addNewRef(): Internal reference management failure");
+                throw new InvalidOperationException(
+                    "TownsAudioInterfaceInternal::addNewRef(): Internal reference management failure");
             else if (!_refInstance.AssignPluginDriver(owner, driver, externalMutexHandling))
-                throw new InvalidOperationException("TownsAudioInterfaceInternal::addNewRef(): Plugin driver conflict");
+                throw new InvalidOperationException(
+                    "TownsAudioInterfaceInternal::addNewRef(): Plugin driver conflict");
 
             return _refInstance;
         }
@@ -1059,7 +1051,9 @@ namespace NScumm.Core.Audio.SoftSynth
             _fmSaveReg[0].Set(240, 0x7f, 16);
             _fmSaveReg[1].Set(0, 0, 256);
             _fmSaveReg[1].Set(240, 0x7f, 16);
-            _fmSaveReg[0][243] = _fmSaveReg[0][247] = _fmSaveReg[0][251] = _fmSaveReg[0][255] = _fmSaveReg[1][243] = _fmSaveReg[1][247] = _fmSaveReg[1][251] = _fmSaveReg[1][255] = 0xff;
+            _fmSaveReg[0][243] = _fmSaveReg[0][247] = _fmSaveReg[0][251] = 
+                _fmSaveReg[0][255] = _fmSaveReg[1][243] = _fmSaveReg[1][247] =
+                _fmSaveReg[1][251] = _fmSaveReg[1][255] = 0xff;
 
             for (int i = 0; i < 128; i++)
                 FmLoadInstrument(i, _fmDefaultInstrument, 0);
@@ -1097,7 +1091,9 @@ namespace NScumm.Core.Audio.SoftSynth
                 if ((c & 0x100) != 0)
                 {
                     c &= 0xff;
-                    BufferedWriteReg(part, (byte)reg, (byte)((((((((_fmSaveReg[part][0x80 + reg] ^ 0x7f) * lvl) >> 7) + 1) * _fmSaveReg[part][0xe0 + chan]) >> 7) + 1) ^ 0x7f));
+                    BufferedWriteReg(part, (byte)reg,
+                        (byte)((((((((_fmSaveReg[part][0x80 + reg] ^ 0x7f) * lvl) >> 7) 
+                        + 1) * _fmSaveReg[part][0xe0 + chan]) >> 7) + 1) ^ 0x7f));
                 }
             }
             return 0;
@@ -1254,7 +1250,9 @@ namespace NScumm.Core.Audio.SoftSynth
                 if ((c & 0x100) != 0)
                 {
                     c &= 0xff;
-                    BufferedWriteReg(part, (byte)reg, (byte)((((((((_fmSaveReg[part][0x80 + reg] ^ 0x7f) * velo) >> 7) + 1) * _fmSaveReg[part][0xd0 + chan]) >> 7) + 1) ^ 0x7f));
+                    BufferedWriteReg(part, (byte)reg, 
+                        (byte)((((((((_fmSaveReg[part][0x80 + reg] ^ 0x7f) * velo) >> 7) 
+                        + 1) * _fmSaveReg[part][0xd0 + chan]) >> 7) + 1) ^ 0x7f));
                 }
             }
 
@@ -1302,7 +1300,8 @@ namespace NScumm.Core.Audio.SoftSynth
             else
                 value = 0xC0;
 
-            BufferedWriteReg(part, (byte)(0xb4 + chan), (byte)((_fmSaveReg[part][0xb4 + chan] & 0x3f) | value));
+            BufferedWriteReg(part, (byte)(0xb4 + chan), (byte)((_fmSaveReg[part][0xb4 + chan]
+                & 0x3f) | value));
             return 0;
         }
 
@@ -1485,7 +1484,8 @@ namespace NScumm.Core.Audio.SoftSynth
 
         static readonly ushort[] _frequency =
             {
-                0x028C, 0x02B4, 0x02DC, 0x030A, 0x0338, 0x0368, 0x039C, 0x03D4, 0x040E, 0x044A, 0x048C, 0x04D0
+                0x028C, 0x02B4, 0x02DC, 0x030A, 0x0338, 0x0368, 0x039C, 
+            0x03D4, 0x040E, 0x044A, 0x048C, 0x04D0
             };
 
     }
