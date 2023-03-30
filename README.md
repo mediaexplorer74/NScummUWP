@@ -5,7 +5,7 @@ The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
 1. RnD nSCUMM by scemino (https://github.com/scemino/nscumm)
 2. RnD nSCUMMUWP by Bashar Astifan (https://github.com/basharast/NScummUWP) 
 3. A Little "refresh" (synthez) of nSCUMM (Win 10 Mobile os "adaptation")
-4. Some "progect optimization" (reducing of src code file size from 166 mb to 32 mb)
+4. Some "project optimization" applied (reducing of src code file size from 166 mb to 32 mb)
 
 ## Screenshots / Images
 ![screenshot](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
