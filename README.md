@@ -1,14 +1,15 @@
-# NScummUWP v1.2
+# NScummUWP v1.2.1
 The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
     
 ## my 2 cents
 1. RnD nSCUMM by scemino (https://github.com/scemino/nscumm)
 2. RnD nSCUMMUWP by Bashar Astifan (https://github.com/basharast/NScummUWP) 
-3. A Little "refresh" (synthez) of nSCUMM (Win 10 Mobile os "adaptation").
+3. A Little "refresh" (synthez) of nSCUMM (Win 10 Mobile os "adaptation")
+4. Some "progect optimization" (reducing of src code file size from 166 mb to 32 mb)
 
-## Screenshots
-![nscumm screenshot 1](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
-
+## Screenshots / Images
+![screenshot](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
+![demo reel](https://github.com/mediaexplorer74/nscumm/blob/master/Images/nscumm.png)
 
 ## Build instructions
 1. First, check that you have the [necessary tools](#requirements) installed.
@@ -32,15 +33,15 @@ The following tools and SDKs are mandatory for the project development:
 
 ## Current features
 Audio / sounds seem(s) to be ok
+Project Astoria compatibility added (win 10 10240 sdk)
 
 ## Planned features
-Project Astoria compatibility (?)
+Check & fix audio plugins (i.e. LOOM goes at no-sound... so strange)
 
 
 ## Special thanks
 - Scemino (https://github.com/scemino/) Original nSCUMM's developer/author - see his project [nSCUMM](https://github.com/scemino/nscumm)
 - Bashar Astifan (https://github.com/basharast) nSCUMM's developer/remaker/enhancer - see his project [NScummUWP]https://github.com/basharast/NScummUWP 
-
 
 ## License
 Copyright © 2015-2023 [nSCUMM Authors](https://github.com/scemino/nscumm/graphs/contributors).
@@ -55,7 +56,7 @@ You should have received a copy of the GNU General Public License along with nSC
 If not, see http://www.gnu.org/licenses/.
 
 ## ..
-AS IS. Np support. RnD only. DIY
+AS IS. No support. RnD only. DIY
 
 ## .
 [m][e] 2023
