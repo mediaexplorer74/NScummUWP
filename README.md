@@ -1,4 +1,4 @@
-# NScummUWP v1.2.1
+# NScummUWP v1.2.2
 The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
     
 ## my 2 cents
@@ -6,10 +6,12 @@ The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
 2. RnD nSCUMMUWP by Bashar Astifan (https://github.com/basharast/NScummUWP) 
 3. nSCUMM "refubrishing" (SceminoNSCUMM+NSCUMMUWP synthez...)
 4. Some "project optimization" applied (reducing srccode's filesize from 166mb to 32mb)
+5. ru_RU local. added
 
 ## Screenshots / Images
-![screenshot](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
-![demo reel](https://github.com/mediaexplorer74/nscumm/blob/master/Images/nscumm.png)
+![W10 Desktop](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)
+![W10M 15252 on L950](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot2.png)
+![W10M Astoria on L640DS](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot3.png)
 
 ## Build instructions
 1. First, check that you have the [necessary tools](#requirements) installed.

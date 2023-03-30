@@ -4,20 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.UWP", "NScumm.UWP\NScumm.UWP.csproj", "{74ED9AF5-716F-48A7-97A5-FCDB51C6F950}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.UWP", "Src\NScumm.UWP\NScumm.UWP.csproj", "{74ED9AF5-716F-48A7-97A5-FCDB51C6F950}"
 EndProject
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Core", "NScumm.Core\NScumm.Core.csproj", "{8E7A9E5B-D7EB-4DA1-8EE7-A5D8DE202372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Core", "Src\NScumm.Core\NScumm.Core.csproj", "{8E7A9E5B-D7EB-4DA1-8EE7-A5D8DE202372}"
 EndProject
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Platform_UWP", "NScumm.Platform_UWP\NScumm.Platform_UWP.csproj", "{F8002A61-23CF-4B47-9561-830F18AFF6F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Platform_UWP", "Src\NScumm.Platform_UWP\NScumm.Platform_UWP.csproj", "{F8002A61-23CF-4B47-9561-830F18AFF6F1}"
 EndProject
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Scumm", "NScumm.Scumm\NScumm.Scumm.csproj", "{97342112-448A-4636-827F-8D47B226D86F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Scumm", "Src\NScumm.Scumm\NScumm.Scumm.csproj", "{97342112-448A-4636-827F-8D47B226D86F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Sky", "NScumm.Sky\NScumm.Sky.csproj", "{8740A0CD-2613-4354-9506-35035A735962}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Sky", "Src\NScumm.Sky\NScumm.Sky.csproj", "{8740A0CD-2613-4354-9506-35035A735962}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Sword1", "NScumm.Sword1\NScumm.Sword1.csproj", "{EF539A3F-0672-412C-B9D0-38DCD3622D99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScumm.Sword1", "Src\NScumm.Sword1\NScumm.Sword1.csproj", "{EF539A3F-0672-412C-B9D0-38DCD3622D99}"
 EndProject
 
 Global
