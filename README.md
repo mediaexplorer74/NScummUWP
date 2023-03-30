@@ -28,15 +28,15 @@ The following tools and SDKs are mandatory for the project development:
     * NuGet package manager;
     * Universal Windows Platform tools;
     * Windows 10 19041 SDK;
-    * Min. os. build must be set to 15063 for all Universal projects. 
+    * Min. os. build can/must be set to 15063 (or even 10240) for all Universal projects 
 
 
 ## Current features
-Audio / sounds seem(s) to be ok
-Project Astoria compatibility added (win 10 10240 sdk)
+- Audio / sounds seem(s) to be ok
+- Project Astoria compatibility added (uwp projects switched to win 10 10240 "mode")
 
 ## Planned features
-Check & fix audio plugins (i.e. LOOM goes at no-sound... so strange)
+- Check & fix audio plugins (i.e. LOOM goes at no-sound... so strange)
 
 
 ## Special thanks
