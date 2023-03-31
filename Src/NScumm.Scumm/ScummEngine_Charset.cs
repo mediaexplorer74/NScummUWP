@@ -458,7 +458,9 @@ namespace NScumm.Scumm
                         break;
 
                     default:
-                        throw new NotSupportedException(string.Format("handleNextCharsetCode: invalid code {0}", c));
+                        //throw new NotSupportedException(string.Format("handleNextCharsetCode: invalid code {0}", c));
+                        ;//HACK
+                        break;
                 }
             }
             _charsetBufPos = bufferPos;

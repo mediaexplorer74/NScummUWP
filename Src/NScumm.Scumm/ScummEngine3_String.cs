@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 
 
 using System;
+using System.Diagnostics;
 using NScumm.Core.Graphics;
 
 namespace NScumm.Scumm
@@ -66,7 +67,9 @@ namespace NScumm.Scumm
                     break;
 
                 default:
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
+                    Debug.WriteLine("[ex] (SE3_String ReadByte) Not Implemented");
+                    break;
             }
         }
 
@@ -211,7 +214,9 @@ namespace NScumm.Scumm
                         return;
 
                     default:
-                        throw new NotImplementedException();
+                        //throw new NotImplementedException();
+                        Debug.WriteLine("[ex] (ScummEngine3_String) " + "Not Implemented");
+                        return;
                 }
             }
 

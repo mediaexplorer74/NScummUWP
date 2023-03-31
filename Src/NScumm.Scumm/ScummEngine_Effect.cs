@@ -97,7 +97,9 @@ namespace NScumm.Scumm
                     break;
 
                 default:
-                    throw new NotSupportedException(string.Format("Unknown screen effect {0}", effect));
+                    //throw new NotSupportedException(string.Format("Unknown screen effect {0}", effect));
+                    DissolveEffect(1, 1); // HACK
+                    break;
             }
             _screenEffectFlag = true;
         }
@@ -145,7 +147,9 @@ namespace NScumm.Scumm
                         break;
 
                     default:
-                        throw new NotImplementedException(string.Format("fadeOut: case {0}", effect));
+                        //throw new NotImplementedException(string.Format("fadeOut: case {0}", effect));
+                        ;//HACK
+                        break;
                 }
             }
 

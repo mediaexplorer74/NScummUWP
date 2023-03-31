@@ -72,19 +72,25 @@ namespace NScumm.Scumm.IO
         {
             get
             {
-                var roomIndices = Game.Version == 0 ? Enumerable.Range(1, 56).Select(r => (byte)r) :
+                var roomIndices = Game.Version == 0 
+                    ? Enumerable.Range(1, 56).Select(r => (byte)r) 
+                    :
                     (from res in Enumerable.Range(1, Index.RoomResources.Count)
-                     where Index.RoomResources[res].RoomNum != 0 && Index.RoomResources[res].Offset != 0xFFFFFFFF
+                     where Index.RoomResources[res].RoomNum != 0
+                     && Index.RoomResources[res].Offset != 0xFFFFFFFF
                      select (byte)res).Distinct();
+                
                 Room room = null;
+
                 foreach (var i in roomIndices)
                 {
                     try
                     {
                         room = GetRoom(i);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Debug.WriteLine("[ex] (ResourceManager) : " + ex.Message);
                         //                        Console.ForegroundColor = ConsoleColor.Red;
                         //                        Console.WriteLine(e);
                         //                        Console.ResetColor();
@@ -111,10 +117,12 @@ namespace NScumm.Scumm.IO
                         {
                             script = GetScript(i);
                         }
-                        catch (NotSupportedException)
+                        catch (Exception ex)//(NotSupportedException)
                         {
+                            Debug.WriteLine("[ex] (RM, Scripts) " + ex.Message);
                             // TODO: mmmh suspicious script error
                         }
+
                         if (script != null)
                         {
                             yield return new Script(i, script);
@@ -569,7 +577,9 @@ namespace NScumm.Scumm.IO
                 case 8:
                     return new ResourceManager8(game);
                 default:
-                    throw new NotSupportedException(string.Format("ResourceManager {0} is not supported", game.Version));
+                    //throw new NotSupportedException(string.Format("ResourceManager {0} is not supported", game.Version));
+                    return new ResourceManager0(game); // HACK
+                    break;
             }
         }
 

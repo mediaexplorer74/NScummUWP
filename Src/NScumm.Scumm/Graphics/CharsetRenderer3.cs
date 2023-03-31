@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using NScumm.Core;
 using NScumm.Core.Graphics;
@@ -47,8 +48,15 @@ namespace NScumm.Scumm.Graphics
             CurId = id;
 
             _fontPtr = Vm.ResourceManager.GetCharsetData((byte)id);
+
             if (_fontPtr == null)
-                throw new NotSupportedException(string.Format("CharsetRendererCommon::setCurID: charset {0} not found", id));
+            {
+                //throw new NotSupportedException(string.Format(
+                //    "CharsetRendererCommon::setCurID: charset {0} not found", id));
+                Debug.WriteLine("[ex] (CharsetRenderer3) :" +
+                    string.Format(
+                    "CharsetRendererCommon::setCurID: charset {0} not found", id));
+            }
 
             _bytesPerPixel = 1;
             NumChars = _fontPtr[4];

@@ -67,7 +67,11 @@ namespace NScumm.MonoGame
                 {
                     try
                     {
-                        engine = info.MetaEngine.Create(info, gfx, inputManager, audioDriver, saveFileManager);
+                        engine = info.MetaEngine.Create(info, 
+                            gfx, 
+                            inputManager, 
+                            audioDriver, 
+                            saveFileManager);
                         break;
                     }
                     catch (Exception ex)

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using NScumm.Core;
 using NScumm.Core.IO;
 
@@ -82,7 +83,9 @@ namespace NScumm.Scumm
                     break;
 
                 default:
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
+                    Debug.WriteLine("[ex] (SE3_Verb) :" + "");
+                    break;
             }
         }
 
@@ -245,7 +248,9 @@ namespace NScumm.Scumm
                         vs.BkColor = (byte)GetVarOrDirectByte(OpCodeParameter.Param1);
                         break;
                     default:
-                        throw new NotImplementedException();
+                        //throw new NotImplementedException();
+                        Debug.WriteLine("[ex] (SE3_Verb) :" + "");
+                        break;
                 }
             }
 

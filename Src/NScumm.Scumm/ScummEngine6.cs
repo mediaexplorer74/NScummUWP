@@ -123,7 +123,11 @@ namespace NScumm.Scumm
         Action OpCode(MethodInfo method)
         {
             if (method == null)
-                throw new ArgumentException("A method was expected.", "method");
+            {
+                //throw new ArgumentException("A method was expected.", "method");
+                Debug.WriteLine("[ex] A method was expected.", "method");
+                return default; //HACK
+            }
 
             var args = new List<Func<object>>();
             foreach (var param in method.GetParameters().Reverse())
@@ -151,7 +155,9 @@ namespace NScumm.Scumm
                 }
                 else
                 {
-                    throw new ArgumentException("An array was expected as parameter.", "method");
+                    //throw new ArgumentException("An array was expected as parameter.", "method");
+                    Debug.WriteLine("[ex] (ScummEngine6) : " 
+                        + "(method) An array was expected as parameter.");
                 }
             }
 
@@ -175,14 +181,8 @@ namespace NScumm.Scumm
                 }
                 catch (Exception ex)
                 {
-                    /*if (System.Diagnostics.Debugger.IsAttached)
-                    {
-                        System.Diagnostics.Debugger.Break();
-                    }
-                    else
-                    {
-                        throw;
-                    }*/
+                  /*if (System.Diagnostics.Debugger.IsAttached) { System.Diagnostics.Debugger.Break();}
+                   else {throw;}*/
                     Debug.WriteLine("[ex] Action OpCode ex.: " + ex.Message);
                 }
             });

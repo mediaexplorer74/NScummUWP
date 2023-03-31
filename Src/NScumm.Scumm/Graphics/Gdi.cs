@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using NScumm.Core;
 using NScumm.Core.Graphics;
@@ -261,7 +262,12 @@ namespace NScumm.Scumm.Graphics
             }
             else if (bpp != 1)
             {
-                throw new InvalidOperationException("Surface::fillRect: bytesPerPixel must be 1, 2, or 4");
+               //throw new InvalidOperationException("Surface::fillRect: bytesPerPixel must be 1, 2, or 4");
+               Debug.WriteLine("[ex] (GDI) : " + "Surface::fillRect: bytesPerPixel must be 1, 2, or 4");
+               
+               bpp = 4;            // HA
+               useMemset = false;  // CK
+
             }
 
             if (useMemset)
@@ -389,7 +395,11 @@ namespace NScumm.Scumm.Graphics
                 return;
 
             if (strip < 0 || strip >= NumStrips)
-                throw new ArgumentOutOfRangeException("strip");
+            {
+                //throw new ArgumentOutOfRangeException("strip");
+                Debug.WriteLine("[ex] (GDI, resetBackground) : " + "ArgumentOutOfRangeException : strip");
+                return;
+            }
 
             if (top < vs.TDirty[strip])
                 vs.TDirty[strip] = top;
@@ -445,9 +455,19 @@ namespace NScumm.Scumm.Graphics
         public void SetGfxUsageBit(int strip, int bit)
         {
             if (strip < 0 || strip >= (_gfxUsageBits.Length / 3))
-                throw new ArgumentOutOfRangeException("strip");
+            {
+                //throw new ArgumentOutOfRangeException("strip");
+                Debug.WriteLine("[ex] (GDI, SetGfxUsageBit) : " + "ArgumentOutOfRangeException : strip");
+                return;
+            }
+
             if (bit < 0 || bit > 96)
-                throw new ArgumentOutOfRangeException("bit");
+            {
+                //throw new ArgumentOutOfRangeException("bit");
+                Debug.WriteLine("[ex] (GDI, SetGfxUsageBit) : " + "ArgumentOutOfRangeException : bit");
+                return;
+            }
+
             bit--;
             _gfxUsageBits[3 * strip + bit / 32] |= (uint)((1 << bit % 32));
         }
@@ -460,9 +480,17 @@ namespace NScumm.Scumm.Graphics
         public void ClearGfxUsageBit(int strip, int bit)
         {
             if (strip < 0 || strip >= (_gfxUsageBits.Length / 3))
-                throw new ArgumentOutOfRangeException("strip");
+            {
+                //throw new ArgumentOutOfRangeException("strip");
+                Debug.WriteLine("[ex] (GDI, ClearGfxUsageBit) : " + "ArgumentOutOfRangeException : strip");
+                return;
+            }
             if (bit < 0 || bit > 96)
-                throw new ArgumentOutOfRangeException("bit");
+            {
+                //throw new ArgumentOutOfRangeException("bit");
+                Debug.WriteLine("[ex] (GDI, ClearGfxUsageBit) : " + "ArgumentOutOfRangeException : bit");
+                return;
+            }
             bit--;
             _gfxUsageBits[3 * strip + bit / 32] &= (uint)~(1 << (bit % 32));
         }
@@ -470,9 +498,17 @@ namespace NScumm.Scumm.Graphics
         public bool TestGfxUsageBit(int strip, int bit)
         {
             if (strip < 0 || strip >= (_gfxUsageBits.Length / 3))
-                throw new ArgumentOutOfRangeException("strip");
+            {
+                //throw new ArgumentOutOfRangeException("strip");
+                Debug.WriteLine("[ex] (GDI, TestGfxUsageBit) : " + "ArgumentOutOfRangeException : strip");
+                return false;
+            }
             if (bit < 0 || bit > 96)
-                throw new ArgumentOutOfRangeException("bit");
+            {
+                //throw new ArgumentOutOfRangeException("bit");
+                Debug.WriteLine("[ex] (GDI, TestGfxUsageBit) : " + "ArgumentOutOfRangeException : bit");
+                return false;
+            }
             bit--;
             return (_gfxUsageBits[3 * strip + bit / 32] & (1 << (bit % 32))) != 0;
         }
@@ -510,9 +546,12 @@ namespace NScumm.Scumm.Graphics
         {
             var entries = new[]
             {
-                LoadAndSaveEntry.Create(reader => _gfxUsageBits = reader.ReadUInt32s(200), writer => writer.WriteUInt32s(_gfxUsageBits, 200), 8, 9),
-                LoadAndSaveEntry.Create(reader => _gfxUsageBits = reader.ReadUInt32s(410), writer => writer.WriteUInt32s(_gfxUsageBits, 410), 10, 13),
-                LoadAndSaveEntry.Create(reader => _gfxUsageBits = reader.ReadUInt32s(3 * 410), writer => writer.WriteUInt32s(_gfxUsageBits, 3 * 410), 14)
+                LoadAndSaveEntry.Create(reader => _gfxUsageBits = reader.ReadUInt32s(200), 
+                writer => writer.WriteUInt32s(_gfxUsageBits, 200), 8, 9),
+                LoadAndSaveEntry.Create(reader => _gfxUsageBits = reader.ReadUInt32s(410), 
+                writer => writer.WriteUInt32s(_gfxUsageBits, 410), 10, 13),
+                LoadAndSaveEntry.Create(reader => _gfxUsageBits = reader.ReadUInt32s(3 * 410), 
+                writer => writer.WriteUInt32s(_gfxUsageBits, 3 * 410), 14)
             };
             entries.ForEach(entry => entry.Execute(serializer));
         }
@@ -838,7 +877,12 @@ namespace NScumm.Scumm.Graphics
                     DrawStripComplex(navDst, src, numLinesToProcess, true);
                     break;
                 default:
-                    throw new NotImplementedException(string.Format("Gdi.DecompressBitmap: default case {0}", code));
+                    //throw new NotImplementedException(string.Format("Gdi.DecompressBitmap: default case {0}", code));
+                    Debug.WriteLine("[ex] (GDI) : " + "Not implemented: " +
+                        string.Format("Gdi.DecompressBitmap: default case {0}", code));
+
+
+                    break;
             }
 
             return transpStrip;

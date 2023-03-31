@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using NScumm.Core;
 using NScumm.Core.Graphics;
@@ -138,10 +139,15 @@ namespace NScumm.Scumm.Graphics
             return spacing;
         }
 
-        protected virtual void DrawBitsN(Surface s, PixelNavigator dst, System.Collections.Generic.IList<byte> src, int srcPos, byte bpp, int drawTop, int width, int height)
+        protected virtual void DrawBitsN(Surface s, PixelNavigator dst, 
+            System.Collections.Generic.IList<byte> src, int srcPos, byte bpp, int drawTop, int width, int height)
         {
             if (bpp != 1 && bpp != 2 && bpp != 4 && bpp != 8)
-                throw new ArgumentException("Invalid bpp", "bpp");
+            {
+                //throw new ArgumentException("Invalid bpp", "bpp");
+                Debug.WriteLine("[ex] (CharsetRenderedClassic) :" + "Invalid bpp " + bpp);
+                bpp = 1;//HACK
+            }
 
             byte bits = src[srcPos++];
             byte numbits = 8;
@@ -245,7 +251,13 @@ namespace NScumm.Scumm.Graphics
                 // identical results, though I didn't try it and right now I don't know
                 // any spots where I can test this...
                 if (!ignoreCharsetMask)
-                    throw new NotSupportedException("This might be broken -- please report where you encountered this to Fingolfin");
+                {
+                    //throw new NotSupportedException(
+                    //    "This might be broken -- please report where you encountered this to Fingolfin");
+                    Debug.WriteLine("[ex] (CharsetRendererClassic) : " +
+                        "This might be broken -- please report where you encountered this to Fingolfin");
+                    ignoreCharsetMask = true;//HACK
+                }
 
                 // Perform some clipping
                 int w = Math.Min(width, dstSurface.Width - Left);

@@ -158,7 +158,9 @@ namespace NScumm.Scumm.IO
                     index = new ResourceIndex8();
                     break;
                 default:
-                    throw new NotSupportedException("The SCUMM version {0} is not supported.");
+                    //throw new NotSupportedException("The SCUMM version {0} is not supported.");
+                    index = new ResourceIndex0(); // HACK
+                    break;
             }
 
             index.Game = game;

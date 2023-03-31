@@ -373,7 +373,9 @@ namespace NScumm.Scumm.Graphics
                             result |= Codec32(xmoveCur, ymoveCur);
                             break;
                         default:
-                            throw new InvalidOperationException(string.Format("akos_drawLimb: invalid _codec {0}", _codec));
+                            //throw new InvalidOperationException(string.Format("akos_drawLimb: invalid _codec {0}", _codec));
+                            Debug.WriteLine("[ex] (AkosRenderer)" + string.Format("akos_drawLimb: invalid _codec {0}", _codec));
+                            break;
                     }
                 }
             }
@@ -652,7 +654,9 @@ namespace NScumm.Scumm.Graphics
 
             if (ActorHitMode)
             {
-                throw new NotImplementedException("codec5: _actorHitMode not yet implemented");
+                //throw new NotImplementedException("codec5: _actorHitMode not yet implemented");
+                Debug.WriteLine("[ex] (AkosRenderer): " +
+                    "codec5: _actorHitMode not yet implemented");
             }
 
             if (!_mirror)

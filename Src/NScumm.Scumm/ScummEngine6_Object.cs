@@ -199,7 +199,11 @@ namespace NScumm.Scumm
         protected virtual void PickOneOf(int i, int[] args)
         {
             if (i < 0 || i > args.Length)
-                throw new ArgumentOutOfRangeException("i", string.Format("PickOneOf: {0} out of range (0, {1})", i, args.Length - 1));
+            {
+                //throw new ArgumentOutOfRangeException("i", string.Format("PickOneOf: {0} out of range (0, {1})", i, args.Length - 1));
+                Debug.WriteLine("[ex] (SE6_Objects) :" + "[out of range] " +
+                    string.Format("PickOneOf: {0} out of range (0, {1})", i, args.Length - 1) );
+            }
             Push(args[i]);
         }
 
@@ -254,7 +258,13 @@ namespace NScumm.Scumm
             var i = 1;
 
             if (room != CurrentRoom)
-                throw new NotSupportedException(string.Format("FindAllObjects: current room is not {0}", room));
+            {
+                //throw new NotSupportedException(
+                //    string.Format("FindAllObjects: current room is not {0}", room));
+                Debug.WriteLine("[ex] (SE6_Objects) : " +
+                    string.Format("FindAllObjects: current room is not {0}", room));
+            }
+
             WriteVariable(0, 0);
             DefineArray(0, ArrayType.IntArray, 0, _resManager.NumLocalObjects + 1);
             WriteArray(0, 0, 0, _resManager.NumLocalObjects);
@@ -368,7 +378,8 @@ namespace NScumm.Scumm
         {
             if (_blastObjectQueuePos >= _blastObjectQueue.Length)
             {
-                throw new InvalidOperationException("enqueueObject: overflow");
+                //throw new InvalidOperationException("enqueueObject: overflow");
+                Debug.WriteLine("[ex] (SE6_Object) : " + "enqueueObject: overflow");
             }
 
             var idx = GetObjectIndex(objectNumber);
@@ -510,8 +521,15 @@ namespace NScumm.Scumm
         void DrawBlastObject(BlastObject eo)
         {
             var objnum = GetObjectIndex(eo.Number);
+
             if (objnum == -1)
-                throw new NotSupportedException(string.Format("DrawBlastObject: GetObjectIndex on BlastObject {0} failed", eo.Number));
+            {
+                //throw new NotSupportedException(string.Format(
+                //    "DrawBlastObject: GetObjectIndex on BlastObject {0} failed", eo.Number));
+                Debug.WriteLine("[ex] (SE6_Objects) : " +
+                   string.Format(
+                       "DrawBlastObject: GetObjectIndex on BlastObject {0} failed", eo.Number) );
+            }
 
             if (_objs[objnum].Images.Count == 0)
                 return;
@@ -520,7 +538,12 @@ namespace NScumm.Scumm
             var img = _objs[objnum].Images[index];
 
             if (!img.IsBomp)
-                throw new NotSupportedException(string.Format("object {0} is not a blast object", eo.Number));
+            {
+                //throw new NotSupportedException(string.Format(
+                //    "object {0} is not a blast object", eo.Number));
+                Debug.WriteLine("[ex] (SE6_Objects) : " +
+                  string.Format("Object {0} is not a blast object", eo.Number));
+            }
 
             var bdd = new BompDrawData();
             bdd.Src = img.Data;

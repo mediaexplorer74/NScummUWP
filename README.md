@@ -1,4 +1,4 @@
-# NScummUWP v1.2.2
+# NScummUWP v1.3
 The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
     
 ## my 2 cents
@@ -7,6 +7,8 @@ The SCUMM UWP client for the Windows 10 (Mobile) platform. :)
 3. nSCUMM "refubrishing" (SceminoNSCUMM+NSCUMMUWP synthez...)
 4. Some "project optimization" applied (reducing srccode's filesize from 166mb to 32mb)
 5. ru_RU local. added
+6. Game-loop (run cycle) stability increazed
+7. Experimental mode added (game engine "zero", or "0") for veeery oooldes dos games support :)
 
 ## Screenshots / Images
 ![W10 Desktop](https://github.com/mediaexplorer74/nscumm/blob/master/Images/shot1.png)

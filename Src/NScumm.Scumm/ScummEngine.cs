@@ -498,7 +498,7 @@ namespace NScumm.Scumm
                     Debug.WriteLine("Failed to initialize FM-Towns audio driver");
                 }
             }
-            else if (Game.Id == "loom" || Game.Id == "indy3") // 
+            else if (Game.Id == "loom" || Game.Id == "indy3" || Game.Id == "sky") // RnD
             {
                 // caution: this sound system get some strange exceptions :(
 

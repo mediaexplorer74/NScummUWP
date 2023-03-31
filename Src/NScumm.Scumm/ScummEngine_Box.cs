@@ -325,9 +325,17 @@ namespace NScumm.Scumm
                 return to;
 
             if (from >= numOfBoxes)
-                throw new ArgumentOutOfRangeException("from");
+            {
+                //throw new ArgumentOutOfRangeException("from");
+                Debug.WriteLine("ex (SE_Box) : " + "ArgumentOutOfRangeException - from");
+                return to; //HACK
+            }
             if (to >= numOfBoxes)
-                throw new ArgumentOutOfRangeException("to");
+            {
+                //throw new ArgumentOutOfRangeException("to");
+                Debug.WriteLine("ex (SE_Box) : " + "ArgumentOutOfRangeException - to");
+                return to; //HACK
+            }
 
             var boxm = _boxMatrix;
 
@@ -514,7 +522,11 @@ namespace NScumm.Scumm
             var s = _scaleSlots[slot - 1];
 
             if (s.Y1 == s.Y2 && s.X1 == s.X2)
-                throw new NotSupportedException(string.Format("Invalid scale slot {0}", slot));
+            {
+                //throw new NotSupportedException(string.Format("Invalid scale slot {0}", slot));
+                Debug.WriteLine("[ex] (SE_Box) : " + "not supported , "+
+                    string.Format("Invalid scale slot {0}", slot));
+            }
 
             if (s.Y1 != s.Y2)
             {
@@ -553,9 +565,17 @@ namespace NScumm.Scumm
         protected void SetScaleSlot(int slot, int x1, int y1, int scale1, int x2, int y2, int scale2)
         {
             if (slot < 1)
-                throw new ArgumentOutOfRangeException("slot", "Invalid scale slot");
+            {
+                //throw new ArgumentOutOfRangeException("slot", "Invalid scale slot");
+                Debug.WriteLine("ex (SE_Box) : " + "ArgumentOutOfRangeException - scale slot " + slot);
+                slot = 1; // HACK
+            }
             if (slot > _scaleSlots.Length)
-                throw new ArgumentOutOfRangeException("slot", "Invalid scale slot");
+            {
+                //throw new ArgumentOutOfRangeException("slot", "Invalid scale slot");
+                Debug.WriteLine("ex (SE_Box) : " + "ArgumentOutOfRangeException - scale slot " + slot);
+                slot = 1; //HACK
+            }
             _scaleSlots[slot - 1] = new ScaleSlot { X1 = x1, X2 = x2, Y1 = y1, Y2 = y2, Scale1 = scale1, Scale2 = scale2 };
         }
     }

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using NScumm.Core.Graphics;
 
 namespace NScumm.Scumm.Graphics
@@ -93,10 +94,17 @@ namespace NScumm.Scumm.Graphics
 
         #region Constructor
 
-        public VirtScreen(int top, int width, int height, PixelFormat format, int numBuffers, bool trick = false)
+        public VirtScreen(int top, int width, int height, PixelFormat format, 
+            int numBuffers, bool trick = false)
         {
             if (numBuffers <= 0)
-                throw new ArgumentOutOfRangeException("numBuffers", "The number of buffers should be positive.");
+            {
+                //throw new ArgumentOutOfRangeException("numBuffers",
+                //    "The number of buffers should be positive.");
+                Debug.WriteLine("ex (VirtScreen) : " +
+                    "The number of buffers should be positive - " + "numBuffers");
+                numBuffers = 1; //HACK
+            }
 
             var numStrips = Math.Max(width / 8, 80);
             tdirty = new int[numStrips + 1];

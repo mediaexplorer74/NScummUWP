@@ -470,12 +470,14 @@ namespace NScumm.Scumm.Audio.IMuse
 
         protected void InitGM(MidiDriver midi)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Debug.WriteLine("[ex] (ImuseInternal) : " + "InitGM MidiDriver not implemented");
         }
 
         protected void InitMT32(MidiDriver midi)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Debug.WriteLine("[ex] (ImuseInternal) : " + "InitMD32 MidiDriver not implemented");
         }
 
         protected void InitPlayers()
@@ -1060,7 +1062,9 @@ namespace NScumm.Scumm.Audio.IMuse
 
             foreach (var trigger in _snm_triggers)
             {
-                if (trigger.Sound != 0 && trigger.Id != 0 && trigger.Command[0] == 8 && trigger.Command[1] == sound && GetSoundStatusInternal(trigger.Sound, true) != 0)
+                if (trigger.Sound != 0 && trigger.Id != 0 && trigger.Command[0] == 8 
+                    && trigger.Command[1] == sound 
+                    && GetSoundStatusInternal(trigger.Sound, true) != 0)
                     return false;
             }
 

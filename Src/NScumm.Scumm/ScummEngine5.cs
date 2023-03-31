@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using NScumm.Core.Audio;
 using NScumm.Core.Graphics;
 using NScumm.Core.Input;
@@ -109,7 +110,11 @@ namespace NScumm.Scumm
                 case 0x1F:                                                                      /* neither */
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("DrawObject: unknown subopcode {0:X2}", _opCode & 0x1F));
+                    //throw new NotSupportedException(
+                    //    string.Format("DrawObject: unknown subopcode {0:X2}", _opCode & 0x1F));
+                    Debug.WriteLine("[ex] (ScummEngine5) : " +
+                        string.Format("DrawObject: unknown subopcode {0:X2}", _opCode & 0x1F));
+                    break;
             }
 
         }

@@ -22,6 +22,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1444,8 +1445,14 @@ namespace NScumm.Scumm
         {
             var hdr = new SaveGameHeader();
             hdr.Type = ScummHelper.SwapBytes(reader.ReadUInt32());
+
             if (hdr.Type != ScummHelper.MakeTag('S', 'C', 'V', 'M'))
-                throw new NotSupportedException("Invalid savegame");
+            {
+                //throw new NotSupportedException("Invalid savegame");
+                Debug.WriteLine("[ex] (SE SaveLoad) : " + "Invalid savegame");
+                //return;
+            }
+            
             hdr.Size = reader.ReadUInt32();
             hdr.Version = reader.ReadUInt32();
             // In older versions of ScummVM, the header version was not endian safe.
@@ -1460,7 +1467,9 @@ namespace NScumm.Scumm
             // information).
             if (hdr.Version < 7 || hdr.Version > CurrentVersion)
             {
-                throw new NotSupportedException("Invalid version");
+                //throw new NotSupportedException("Invalid version");
+                Debug.WriteLine("[ex] (SE SaveLoad) : " + "Invalid version");
+                //return;
             }
 
 			hdr.Name = reader.ReadBytes(32).GetText();
@@ -1473,7 +1482,9 @@ namespace NScumm.Scumm
                 {
                     if (!CheckThumbnailHeader(reader))
                     {
-                        throw new NotSupportedException("Cannot load thumbnail");
+                        //throw new NotSupportedException("Cannot load thumbnail");
+                        Debug.WriteLine("[ex] (SE SaveLoad)" 
+                            + "NotSupported / Cannot load thumbnail");
                     }
                 }
                 SkipThumbnail(reader);

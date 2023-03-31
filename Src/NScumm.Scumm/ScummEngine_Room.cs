@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using NScumm.Core;
 
 namespace NScumm.Scumm
@@ -52,7 +53,11 @@ namespace NScumm.Scumm
             }
             else
             {
-                throw new NotSupportedException(string.Format("SO_SAVE_STRING: Unsupported filename {0}", filename));
+                //throw new NotSupportedException(
+                //    string.Format("SO_SAVE_STRING: Unsupported filename {0}", filename));
+                Debug.WriteLine("[ex] (SE_Rooms) : " +
+                   string.Format("SO_SAVE_STRING: Unsupported filename {0}", filename));
+                filename = "unsupported";
             }
             return filename;
         }

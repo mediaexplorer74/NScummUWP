@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using NScumm.Core;
 using NScumm.Core.IO;
@@ -75,6 +76,9 @@ namespace NScumm.Scumm.IO
             using (var disk = ServiceLocator.FileStorage.OpenFileRead(path))
             {
                 var br = new BinaryReader(disk);
+
+                //RnD
+                //if (Game.Platform == Platform.DOS)
                 if (Game.Platform == Platform.Apple2GS)
                 {
                     br.BaseStream.Seek(142080, SeekOrigin.Begin);
@@ -83,7 +87,10 @@ namespace NScumm.Scumm.IO
                 var signature = br.ReadUInt16();
                 if (signature != 0x0A31)
                 {
-                    throw new NotSupportedException(string.Format("Invalid signature '{0:X}' in disk 1", signature));
+                    //throw new NotSupportedException(string.Format(
+                    //    "Invalid signature '{0:X}' in disk 1", signature));
+                    Debug.WriteLine("[!] Warning: " + string.Format(
+                        "Invalid signature '{0:X}' in disk 1", signature));
                 }
 
                 // object flags

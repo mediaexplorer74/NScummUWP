@@ -1240,7 +1240,9 @@ namespace NScumm.Scumm.Insane
                         }
                         break;
                     default:
-                        throw new InvalidOperationException("invalid escape code in text string");
+                        //throw new InvalidOperationException("invalid escape code in text string");
+                        Debug.WriteLine("[ex] (Insane) :" + "invalid escape code in text string");
+                        break;
                 }
             }
 
@@ -1263,7 +1265,10 @@ namespace NScumm.Scumm.Insane
                     sf.DrawStringWrap(str, renderBitmap, _player.Width, _player.Height, pos_x, pos_y, 10, 300, true);
                     break;
                 default:
-                    throw new InvalidOperationException(string.Format("Insane::smlayer_showStatusMsg. Not handled flags: {0}", flags));
+                    //throw new InvalidOperationException(string.Format("Insane::smlayer_showStatusMsg. Not handled flags: {0}", flags));
+                    Debug.WriteLine("[ex] (Insane) : " +
+                        string.Format("Insane::smlayer_showStatusMsg. Not handled flags: {0}", flags));                    
+                    break;
             }
         }
 
